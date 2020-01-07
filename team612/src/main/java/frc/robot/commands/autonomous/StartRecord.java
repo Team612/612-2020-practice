@@ -9,6 +9,7 @@ import org.json.simple.JSONObject;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.controls.ControlMap;
 
 public class StartRecord extends CommandBase {
 
@@ -17,9 +18,7 @@ public class StartRecord extends CommandBase {
   private String OUTPUT_FILE;  // Output file name for movement
 
   // Joysticks to record from (will be replaced with control maps)
-  private Joystick driver = new Joystick(0);
-  private Joystick gunner = new Joystick(1);
-  private Joystick[] joysticks = {driver, gunner};  // Array for joysticks to be measured
+  private Joystick[] joysticks = {ControlMap.driver, ControlMap.gunner};  // Array for joysticks to be measured
 
   private JSONArray frames;  // Output array to pass into the file
   private double voltage;  // Store current voltage before replay

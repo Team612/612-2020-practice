@@ -54,6 +54,8 @@ public class StartReplay extends CommandBase {
       leftSide = leftSide * getVoltageCompensation();
       rightSide = rightSide * getVoltageCompensation();
 
+      //TODO: plug joystick values back into drivetrain.
+
       i++;  // Increase to next frame
     } else {
       END_REPLAY = true;  // End the command once done
