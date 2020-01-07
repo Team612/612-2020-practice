@@ -124,6 +124,7 @@ public class StartRecord extends CommandBase {
       file.write(json_object.toJSONString());
     } catch (IOException e) {
       System.out.println("Unable to save JSON file");
+      end(true);  // If error end the function
     }
 
   }

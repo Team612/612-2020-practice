@@ -24,7 +24,6 @@ public class StartReplay extends CommandBase {
   
 
   private String DIRECTORY = "/home/lvuser/";  // Directory to ROBORIO
-  private String FILENAME;  // Output file name for movement
 
   private boolean END_REPLAY = false;  // Boolean to end the function if neccesary
 
@@ -33,7 +32,7 @@ public class StartReplay extends CommandBase {
   
 
   public StartReplay(String FILENAME) {
-    JSONObject parsed = parse_json(FILENAME);
+    JSONObject parsed = parse_json(DIRECTORY + FILENAME);
     // Extract voltage and array of steps from parsed json
     recording_voltage = (double) parsed.get("voltage");
     frames = (JSONArray) parsed.get("frames");
@@ -62,6 +61,8 @@ public class StartReplay extends CommandBase {
       rightSide = rightSide * getVoltageCompensation();
 
       i++;  // Increase to next frame
+    } else {
+      END_REPLAY = true;  // End the command once done
     }
 
   }
@@ -81,14 +82,15 @@ public class StartReplay extends CommandBase {
 
   private JSONObject parse_json(String file_name) {
 
-    JSONParser jsonParser = new JSONParser();
+    JSONParser jsonParser = new JSONParser();  // Create parser object
 
     try (FileReader reader = new FileReader(file_name)) {
 
       Object obj = jsonParser.parse(reader);  // Parsed object from JSON
       
-      return (JSONObject) obj;
+      return (JSONObject) obj;  // Cast and return JSON object
 
+      // File opening error handling
     } catch (FileNotFoundException e) {
       System.out.println("File does not exist!");
     } catch (IOException e) {
@@ -97,7 +99,8 @@ public class StartReplay extends CommandBase {
       System.out.println("Invalid JSON format!");
     }
 
-    END_REPLAY = true;
+    // If nothing returned by parser end the command
+    end(true);
     return null;
 
   }
