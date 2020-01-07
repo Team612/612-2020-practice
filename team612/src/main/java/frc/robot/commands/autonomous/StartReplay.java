@@ -1,10 +1,3 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.autonomous;
 
 import java.io.FileNotFoundException;
@@ -27,8 +20,9 @@ public class StartReplay extends CommandBase {
 
   private boolean END_REPLAY = false;  // Boolean to end the function if neccesary
 
+  // Variables modified by ParseReplay.java
   private JSONArray frames;  // Empty parser object to fetch information
-  private double recording_voltage;
+  private double recording_voltage; 
   
 
   public StartReplay(String FILENAME) {
@@ -104,7 +98,6 @@ public class StartReplay extends CommandBase {
     return null;
 
   }
-
 
   // Get factor to multiply motor values to factor battery depletion
   private double getVoltageCompensation() {
