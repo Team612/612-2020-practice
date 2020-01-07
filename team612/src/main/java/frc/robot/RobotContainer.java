@@ -8,16 +8,23 @@ import frc.robot.subsystems.Drivetrain;
 public class RobotContainer {
 
   private final Drivetrain m_drivetrain = new Drivetrain();
-  private final DefaultDrive m_defaultdrive = new DefaultDrive(m_drivetrain);
+  private final DefaultDrive c_defaultdrive = new DefaultDrive(m_drivetrain);
 
   private final SampleAuto m_sampleauto = new SampleAuto();
 
   public RobotContainer() {
     configureButtonBindings();
+    configureDefaultCommands();
   }
 
+  // Put all button bindings here
   private void configureButtonBindings() {
     
+  }
+
+  // Put all default commands here
+  private void configureDefaultCommands() {
+    m_drivetrain.setDefaultCommand(c_defaultdrive);
   }
 
   public Command getAutonomousCommand() {
