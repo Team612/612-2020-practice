@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class RecordRobot extends CommandBase {
+public class StartRecord extends CommandBase {
   
 
-  private boolean RECORDING;  // Boolean to end the function on button press
+  public static boolean RECORDING;  // Boolean to end the function on button press
   private String DIRECTORY = "/home/lvuser/";  // Directory to ROBORIO
   private String OUTPUT_FILE;  // Output file name for movement
 
@@ -32,7 +32,7 @@ public class RecordRobot extends CommandBase {
   private JSONArray frames;  // Output array to pass into the file
 
 
-  public RecordRobot(String OUTPUT_FILE) {  // Passs output file in constructor
+  public StartRecord(String OUTPUT_FILE) {  // Passs output file in constructor
     OUTPUT_FILE = this.OUTPUT_FILE;
   }
 
@@ -46,10 +46,6 @@ public class RecordRobot extends CommandBase {
 
   @Override
   public void execute() {
-
-    if (driver.getRawButton(1)) {  // If button of choice pressed end the recording (will be replaced)
-      RECORDING = false;
-    }
 
     JSONObject frame = capture(joysticks);  // Get the current JSON structure for this iteration
     frames.add(frame);  // Append the json frame to the array
