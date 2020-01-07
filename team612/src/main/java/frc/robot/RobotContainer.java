@@ -21,8 +21,10 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
 
-    ControlMap.driver_button_A.whenPressed(new StartRecord("output.replay"));
-    ControlMap.driver_button_B.whenPressed(new EndRecord());
+    if (Constants.ENABLE_RECORDING) {
+      ControlMap.driver_button_A.whenPressed(new StartRecord("output.replay"));
+      ControlMap.driver_button_B.whenPressed(new EndRecord());
+    }
 
   }
 

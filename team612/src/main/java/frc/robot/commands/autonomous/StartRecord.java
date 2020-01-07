@@ -31,6 +31,7 @@ public class StartRecord extends CommandBase {
 
   private JSONArray frames;  // Output array to pass into the file
 
+  private double voltage;
 
   public StartRecord(String OUTPUT_FILE) {  // Passs output file in constructor
     OUTPUT_FILE = this.OUTPUT_FILE;
@@ -41,6 +42,7 @@ public class StartRecord extends CommandBase {
   public void initialize() {
     RECORDING = true;  // Reset the value of RECORDING every time the command is called
     frames = new JSONArray();  // Reset the JSON array each call
+    voltage = RobotController.getBatteryVoltage();
   }
 
 
@@ -55,9 +57,11 @@ public class StartRecord extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
+    JSONObject export_json = new JSONObject();
+    export_json.put("voltage", voltage);
+    export_json.put("frames", frames);
 
-
-    save_json(frames, DIRECTORY + OUTPUT_FILE);  // Save the final JSONArray to directory in ROBORIO
+    save_json(export_json, DIRECTORY + OUTPUT_FILE);  // Save the final JSONArray to directory in ROBORIO
 
     System.out.println("Succesfully saved replay file!");
 
@@ -75,6 +79,7 @@ public class StartRecord extends CommandBase {
   private JSONObject capture(Joystick[] joysticks)  {  // Input list of Joysticks to read from
 
     JSONObject frame = new JSONObject();  // Final output json line for all 
+    int count = 0;
 
     for (Joystick joystick : joysticks) {  // Iterate through each joystick
 
@@ -102,9 +107,8 @@ public class StartRecord extends CommandBase {
       joy_frame.put("axes", axes);
       joy_frame.put("pov", pov);
 
-      frame.put("voltage", RobotController.getBatteryVoltage());  // Get current battery voltage
-      frame.put(joystick.getName(), joy_frame);  // Append the controller and its mapping to the current frame object
-      
+      frame.put(count, joy_frame);  // Append the controller and its mapping to the current frame object
+      count++;
       
     }
     
@@ -114,7 +118,7 @@ public class StartRecord extends CommandBase {
 
 
   // Input final JSON array and save it to designated file path.
-  private void save_json(JSONArray json_object, String output_path) { 
+  private void save_json(JSONObject json_object, String output_path) { 
 
     try (FileWriter file = new FileWriter(output_path)) {
       file.write(json_object.toJSONString());

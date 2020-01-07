@@ -10,8 +10,10 @@ public class ControlMap {
     private static Joystick gunner = new Joystick(1);
 
     // Controller Trigger Axises
-    private static int right_axis_port = 1;
-    private static int left_axis_port = 2;
+    public static int left_y_axis = 1;
+    public static int left_x_axis = 1;
+    public static int right_y_axis = 1;
+    public static int right_x_axis = 1;
 
     // Driver buttons
     public static JoystickButton driver_button_A    	= new JoystickButton(driver,1);
@@ -36,23 +38,5 @@ public class ControlMap {
     public static JoystickButton gunner_button_STRT 	= new JoystickButton(gunner,8);
     public static JoystickButton gunner_button_LJ   	= new JoystickButton(gunner,9);
     public static JoystickButton gunner_button_RJ   	= new JoystickButton(gunner,10);
-
-
-    public static double getDriverRightTrigger() {
-        return driver.getRawAxis(right_axis_port);
-    }
-
-    public static double getDriverLeftTrigger() {
-        return driver.getRawAxis(left_axis_port);
-    }
-
-    public static double getGunnerRightTrigger() {
-        return gunner.getRawAxis(right_axis_port);
-    }
-
-    public static double getGunnerLeftTrigger() {
-        return gunner.getRawAxis(left_axis_port);
-    }
-
 
 }
