@@ -1,22 +1,20 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.vision;
 
-import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Drivetrain;
 
 public class AlignByVision extends CommandBase {
   
-  // PID constants
+  // PID constants for rotation
   private double kp = 0.0;
   private double ki = 0.0;
   private double kd = 0.0;
 
+  // PID constants for distance (Only proportional so far)
+  private double kp_d = 0.0;
+  private double ki_d = 0.0;
+  private double kd_d = 0.0;
+  
   private double tx;  // X-axis offset same as error
   private double tx_prev;  // Store the previous error for derivative
   private double tx_sum;  // Sum of error or offset for integral
@@ -28,23 +26,55 @@ public class AlignByVision extends CommandBase {
   private double derivative;
   private double integral;
 
+  // Output variable of distance drive
+  private double distance;
+  private double distance_error;
+
+  private double tx_tolerance = 0;
+  private double distance_tolerance = 0;
+
   private double throttle;  // Result of PID loop, then converted to tank drive
 
   private NetworkTableListener listener;  // Listener object to update offset values
 
-  public AlignByVision() {
+  private final Drivetrain m_drivetrain;  // Drivetrain subsystem to pass into
+
+  // TODO: Add distance calculation for initial value of both sides
+  private double left_command;
+  private double right_command;
+
+  private boolean ALIGNED;  // Boolean to store status of alignment
+
+  public AlignByVision(Drivetrain m_drivetrain) {
+    // Add drivetrain subsystem requirements
+    this.m_drivetrain = m_drivetrain;
+    addRequirements(m_drivetrain);
+    // Create the listener object for vision
     listener = new NetworkTableListener("Vision_Table");    
   }
 
-  // Called when the command is initially scheduled.
+
   @Override
   public void initialize() {
-    tx = listener.getOffset();
+    tx = listener.getOffset();  // Get current offset reading from camera
+    // Reset Left and Right calculated motor values
+    left_command = 0;
+    right_command = 0;
+    ALIGNED = false;
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
+
   @Override
   public void execute() {
+
+    /*
+    https://readthedocs.org/projects/limelight/downloads/pdf/latest/
+    Chapter 11: Aiming and Range at the same time.
+    */
+
+    // Distance value
+    distance = m_drivetrain.ultrasonic_drive.getRangeInches();
+    distance_error = distance * kp_d;
 
     // Start accumulating offset if offset is stuck at low value
     if (tx < integral_limit) {
@@ -70,18 +100,32 @@ public class AlignByVision extends CommandBase {
     tx_prev = tx;  // Assign the previous motor value for derivative
 
     throttle = proportion + integral + derivative;
+    throttle = throttle > 1 ? 1 : throttle < -1 ? -1 : throttle;  // Truncate throttle value between -1 and 1
+
+    // TODO: Normally += throttle to PID on distance for left and right command
+    left_command += throttle + distance_error;
+    right_command -= throttle + distance_error;
+
+    System.out.println(left_command + " | " + right_command);
+
+    // TODO: Next add tank drive .set() for left and right value
+
+    if (tx < tx_tolerance && distance < distance_tolerance) {
+      ALIGNED = true;
+    }
 
   }
 
-  // Called once the command ends or is interrupted.
+
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Aligned!");
   }
 
-  // Returns true when the command should end.
+
   @Override
   public boolean isFinished() {
-    return false;
+    return ALIGNED;
   }
 
 }
