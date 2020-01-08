@@ -72,6 +72,8 @@ public class AlignByVision extends CommandBase {
     Chapter 11: Aiming and Range at the same time.
     */
 
+    tx = listener.getOffset();  // Get current offset reading from camera
+
     // Distance value
     distance = m_drivetrain.ultrasonic_drive.getRangeInches();
     distance_error = distance * kp_d;
