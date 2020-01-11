@@ -10,11 +10,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class Wheel extends SubsystemBase {
 
-  // Target values for each color value
-  private final Color kBlueTarget = ColorMatch.makeColor(.143, .427, .429);
-  private final Color kGreenTarget = ColorMatch.makeColor(.197, .561, .240);
-  private final Color kRedTarget = ColorMatch.makeColor(.561, .232, .114);
-  private final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
+  public static Object getClosestColor;
+// Target values for each color value
+  public static final Color kBlueTarget = ColorMatch.makeColor(.143, .427, .429);
+  public final Color kGreenTarget = ColorMatch.makeColor(.197, .561, .240);
+  public final Color kRedTarget = ColorMatch.makeColor(.561, .232, .114);
+  public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
 
   // The matcher that map the sensor value to one of the targets
   public ColorMatch colorMatcher = new ColorMatch();
@@ -36,11 +37,11 @@ public class Wheel extends SubsystemBase {
     // Create the threshold for the matcher
     colorMatcher.setConfidenceThreshold(0.00);
   }
-
+   
   public String getClosestColor() {
-
-    // Read the color sensor and get the closest match
     ColorMatchResult match = colorMatcher.matchClosestColor(colorSensor.getColor());
+    // Read the color sensor and get the closest match
+  
 
     // Get string version of color
     if (match.color == kBlueTarget) {
