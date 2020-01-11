@@ -6,8 +6,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class ControlMap {
 
     // Controller objects
-    private static Joystick driver = new Joystick(0);
-    private static Joystick gunner = new Joystick(1);
+    public static Joystick driver = new Joystick(0);
+    public static Joystick gunner = new Joystick(1);
 
     // TODO: Add controller trigger axises
 

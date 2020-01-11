@@ -6,12 +6,12 @@ import frc.robot.subsystems.Drivetrain;
 public class AlignByVision extends CommandBase {
   
   // PID constants for rotation
-  private double kp = 0.005;
+  private double kp = 0.01;
   private double ki = 0.0;
   private double kd = 0.0;
 
   // PID constants for distance (Only proportional so far)
-  private double kp_d = 0.0001;
+  private double kp_d = 0.0;
   private double ki_d = 0.0;
   private double kd_d = 0.0;
   

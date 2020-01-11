@@ -37,10 +37,10 @@ public class Drivetrain extends SubsystemBase {
 
   // Hacked together tank drive script (will replace)
   public void tank_drive(double left_command, double right_command) {
-    fr_wheel.set(right_command * -1);
-    br_wheel.set(right_command * -1);
-    fl_wheel.set(left_command);
-    bl_wheel.set(left_command);
+    fr_wheel.set(right_command);
+    br_wheel.set(right_command);
+    fl_wheel.set(left_command*-1);
+    bl_wheel.set(left_command*-1);
   }
 
   
