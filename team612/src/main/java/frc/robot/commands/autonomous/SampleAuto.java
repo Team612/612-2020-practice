@@ -8,12 +8,14 @@
 package frc.robot.commands.autonomous;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class SampleAuto extends CommandBase {
   /**
    * Creates a new ReplayRobot.
    */
-  public SampleAuto() {
+  public SampleAuto(){
+    addRequirements();
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

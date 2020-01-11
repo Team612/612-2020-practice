@@ -1,5 +1,6 @@
 package frc.robot;
 
+import frc.robot.subsystems.*;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.autonomous.SampleAuto;
 import frc.robot.commands.drivetrain.DefaultDrive;
@@ -10,6 +11,7 @@ public class RobotContainer {
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final DefaultDrive c_defaultdrive = new DefaultDrive(m_drivetrain);
 
+  private final Accelerometer accel = new Accelerometer();
   private final SampleAuto m_sampleauto = new SampleAuto();
 
   public RobotContainer() {
