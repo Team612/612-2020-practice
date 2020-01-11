@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -70,7 +71,12 @@ public class Drivetrain extends SubsystemBase {
   // Periodic loop for ShuffleBoard values
   @Override
   public void periodic() {
-
+    // Shuffle board values
+    SmartDashboard.putNumber("Back Left Drive Talon", talon_bl_drive.get());
+    SmartDashboard.putNumber("Back Right Drive Talon", talon_br_drive.get());
+    SmartDashboard.putNumber("Front Left Drive Talon", talon_fl_drive.get());
+    SmartDashboard.putNumber("Front RIght Drive Talon", talon_fr_drive.get());
+    SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
   }
   
 }
