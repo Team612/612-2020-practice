@@ -1,3 +1,3 @@
-# Team 612's Infinite Recharge Code Repository
+# 2020 Robot Code
 **Related Repositories:** [Vision](https://github.com/kaifergerstrom/vision-2020)
 
