@@ -1,93 +1,79 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2019 FIRST. All Rights Reserved.                             */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
 package frc.robot.commands.wheel;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.controls.ControlMap;
-import frc.robot.subsystems.Wheel;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.subsystems.Wheel;
 
 public class SpinToColor extends CommandBase {
-  /**
-   * Creates a new SpinToColor.
-   */
-  public String colorVal;
-  public Wheel s_wheel;
 
-  public SpinToColor(Wheel wheel) {
-    // Use addRequirements() here to declare subsystem dependencies.\
-    s_wheel = wheel;
+  char[] colorPattern = {'R', 'Y', 'B', 'G'};  // Pattern of wheel colors
+  
+  int offset = 2;  // Color offset (actual vs. target)
+
+  char targetColor; // Actual target value (FMS)
+  char sensorTarget;  // Sensor target value (Since two colors behind on wheel) 
+  char currentColor;  // Current sensor value
+
+  boolean isComplete = false;  // Variable to end the command
+
+  private Wheel m_wheel;  // Local subsystem from wheel
+
+  public SpinToColor(Wheel m_wheel) {
+    this.m_wheel = m_wheel;
+    addRequirements(m_wheel); // needed?
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    isComplete = false;  // Reset isComplete each call
+    if (DriverStation.getInstance().getGameSpecificMessage().length() > 0) {
+      targetColor = DriverStation.getInstance().getGameSpecificMessage().charAt(0);  // Actual target value
+      sensorTarget = getScaledTargetColor(targetColor);  // Scaled target value 2 more steps into the pattern
+    } else {
+      end(true);  // End the function right away if not wheel stage
+    }
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    String gameData;
-gameData = DriverStation.getInstance().getGameSpecificMessage();
-if(gameData.length() > 0) // if not null
-{
-  switch (gameData.charAt(0))
-  {
-    case 'B' :
-      colorVal = "red";
-      System.out.println("Target is Blue");
-      break;
-    case 'G' :
-      colorVal = "yellow";
-      System.out.println("Target is Green");
-      break;
-    case 'R' :
-      colorVal = "blue";
-      System.out.println("Target is Red");
-      break;
-    case 'Y' :
-      colorVal = "green";
-      System.out.println("Target is Yellow");
-      break;
-    default :
-      //This is corrupt data
-      break;
-  }
-} else {
-  //Code for no data received yet
-}
-    //set motor value to x
-    //make motor wait 1 second
-    
-    if(colorVal.equals(s_wheel.getClosestColor())) {
-      //stop
-      //wait 1 second before failsafe
-      if(!colorVal.equals(s_wheel.getClosestColor())) {
-        //set motor value to -x/4
-        if(colorVal.equals(s_wheel.getClosestColor())) {
-          //stop
-          System.out.println("STOP!!!!!");
-        }
-      }
-    }
-    
 
-    
-}
-  // Called once the command ends or is interrupted.
+    currentColor = m_wheel.getClosestColor();  // Current sensor reading updating each loop
+
+    // End the command once target value is hit
+    if (currentColor == sensorTarget) {
+      isComplete = true;
+    }
+
+    // TODO: Rotate at fixed rate
+
+  }
+
   @Override
   public void end(boolean interrupted) {
+    // TODO: Stop the motor
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return isComplete;
   }
+
+  /* ------ Custom Functions ------ */
+
+  // Returns index of char in array
+  private int getIndex(char target) {
+    for (int i = 0; i < colorPattern.length; ++i) {
+      if (colorPattern[i] == target) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  // Gets char of pattern two steps from target value
+  private char getScaledTargetColor(char color) {
+    int targetIndex = getIndex(color) + offset >= colorPattern.length ? (getIndex(color) + offset) - colorPattern.length : getIndex(color) + offset;
+    return colorPattern[targetIndex];
+  }
+  
 }

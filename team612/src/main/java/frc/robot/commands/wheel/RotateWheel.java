@@ -5,9 +5,9 @@ import frc.robot.subsystems.Wheel;
 
 public class RotateWheel extends CommandBase {
   
-  private String initial_color;  // The first color read when command runs
-  private String current_color;  // The current color read by the sensor
-  private String prev_color;  // The previous value read by the sensor in execute
+  private char initial_color;  // The first color read when command runs
+  private char current_color;  // The current color read by the sensor
+  private char prev_color;  // The previous value read by the sensor in execute
 
   private double revolution_count;  // Measure the revolution within 0 <= x <= 5
   
@@ -37,7 +37,7 @@ public class RotateWheel extends CommandBase {
     current_color = m_wheel.getClosestColor();  // Reassign the current sensor value
 
     // Prevent edge cases and invalid sensor values
-    if (current_color.equals(prev_color)) {
+    if (current_color == prev_color) {
       buffer_count++;  // Count the amount of same color values
     } else {
       buffer_count = 0;
@@ -45,7 +45,7 @@ public class RotateWheel extends CommandBase {
     }
 
     // Measure if the sampling size is met, to increase the revolution count
-    if (buffer_count > buffer_size && current_color.equals(initial_color) && !has_counted_revolution) {
+    if (buffer_count > buffer_size && current_color == initial_color && !has_counted_revolution) {
       revolution_count += 0.5;
       buffer_count = 0;
       has_counted_revolution = true;
@@ -67,7 +67,6 @@ public class RotateWheel extends CommandBase {
     System.out.println(revolution_count);
 
     prev_color = current_color;  // Assign the previous sensor value to the current and continue
-
 
   }
 

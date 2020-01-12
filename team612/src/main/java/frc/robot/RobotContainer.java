@@ -11,9 +11,11 @@ import frc.robot.subsystems.Wheel;
 
 public class RobotContainer {
 
+  // Drivetrain related subsystem and commands
   private final Drivetrain m_drivetrain = new Drivetrain();
   private final DefaultDrive c_defaultdrive = new DefaultDrive(m_drivetrain);
   
+  // Color wheel subsystem and commands
   private final Wheel m_wheel = new Wheel();
   private final RotateWheel c_rotatewheel = new RotateWheel(m_wheel);
   private final SpinToColor c_spintocolor = new SpinToColor(m_wheel);

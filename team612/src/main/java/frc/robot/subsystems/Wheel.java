@@ -12,7 +12,7 @@ public class Wheel extends SubsystemBase {
 
   public static Object getClosestColor;
 // Target values for each color value
-  public static final Color kBlueTarget = ColorMatch.makeColor(.143, .427, .429);
+  public final Color kBlueTarget = ColorMatch.makeColor(.143, .427, .429);
   public final Color kGreenTarget = ColorMatch.makeColor(.197, .561, .240);
   public final Color kRedTarget = ColorMatch.makeColor(.561, .232, .114);
   public final Color kYellowTarget = ColorMatch.makeColor(0.361, 0.524, 0.113);
@@ -38,22 +38,21 @@ public class Wheel extends SubsystemBase {
     colorMatcher.setConfidenceThreshold(0.00);
   }
    
-  public String getClosestColor() {
-    ColorMatchResult match = colorMatcher.matchClosestColor(colorSensor.getColor());
+  public char getClosestColor() {
+
     // Read the color sensor and get the closest match
-  
+    ColorMatchResult match = colorMatcher.matchClosestColor(colorSensor.getColor()); 
 
     // Get string version of color
     if (match.color == kBlueTarget) {
-      return "blue";
+      return 'B';
     } else if (match.color == kGreenTarget) {
-      return "green";
+      return 'G';
     } else if (match.color == kRedTarget) {
-      return "red";
-    } else if (match.color == kYellowTarget) {
-      return "yellow";
+      return 'R';
+    } else {
+      return 'Y';  // If none of the 3 others return the last choice, yellow
     }
-    return "";
     
   }
 
