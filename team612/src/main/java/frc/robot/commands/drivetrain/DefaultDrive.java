@@ -31,7 +31,6 @@ public class DefaultDrive extends CommandBase {
   @Override
   public void execute() {
     m_drivetrain.tank_drive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5));
-    System.out.println("Running Drive");
   }
 
   // Called once the command ends or is interrupted.

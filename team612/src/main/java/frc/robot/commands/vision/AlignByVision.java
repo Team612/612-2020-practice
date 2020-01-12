@@ -6,12 +6,12 @@ import frc.robot.subsystems.Drivetrain;
 public class AlignByVision extends CommandBase {
   
   // PID constants for rotation
-  private double kp = 0.01;
+  private double kp = 0.001;
   private double ki = 0.0;
   private double kd = 0.0;
 
   // PID constants for distance (Only proportional so far)
-  private double kp_d = 0.0;
+  private double kp_d = 0.009;
   private double ki_d = 0.0;
   private double kd_d = 0.0;
   
@@ -50,7 +50,8 @@ public class AlignByVision extends CommandBase {
     this.m_drivetrain = m_drivetrain;
     addRequirements(m_drivetrain);
     // Create the listener object for vision
-    listener = new NetworkTableListener("Vision_Table");    
+    listener = new NetworkTableListener("Vision_Table");  
+    listener.createListeners();  
   }
 
 
@@ -70,10 +71,9 @@ public class AlignByVision extends CommandBase {
     https://readthedocs.org/projects/limelight/downloads/pdf/latest/
     Chapter 11: Aiming and Range at the same time.
     */
-    System.out.println(listener.isTargetFound());
+=
     if (listener.isTargetFound()) {
       tx = listener.getOffset();  // Get current offset reading from camera
-
       // Distance value
       distance = m_drivetrain.ultrasonic_drive.getRangeInches();
       distance_error = distance * kp_d;
@@ -105,15 +105,24 @@ public class AlignByVision extends CommandBase {
       throttle = throttle > 1 ? 1 : throttle < -1 ? -1 : throttle;  // Truncate throttle value between -1 and 1
 
       // TODO: Normally += throttle to PID on distance for left and right command
-      left_command = throttle + distance_error;
-      right_command = throttle - distance_error;
+      /*
+      left_command = throttle * 5 * -1;
+      right_command = throttle * 5;
+      */
+
+      left_command = (distance_error * -1) - (throttle);
+      right_command = (distance_error * -1) - (throttle * -1);
 
       // Basic print statements and tank drive apply
-      System.out.println(throttle);
-      System.out.println(distance_error);
+      /*
+      System.out.println("Ultra: " + distance);
+      System.out.println("Ultra KP: " + distance_error);
+      System.out.println((distance_error * -1) + " - " + (throttle));
       System.out.println(left_command + " | " + right_command);
       System.out.println(listener.isTargetFound());
       m_drivetrain.tank_drive(left_command, right_command);
+      */
+      
 
       if (tx < tx_tolerance && distance < distance_tolerance) {
         ALIGNED = true;
