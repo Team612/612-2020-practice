@@ -26,7 +26,7 @@ public class AlignByVision extends CommandBase {
 
   // Output variable of distance drive
   private double distance;
-  private double distance_error;
+  private double distance_adjust;
 
   private double tx_tolerance = 0;
   private double distance_tolerance = 0;
@@ -36,10 +36,6 @@ public class AlignByVision extends CommandBase {
   private NetworkTableListener listener;  // Listener object to update offset values
 
   private final Drivetrain m_drivetrain;  // Drivetrain subsystem to pass into
-
-  // TODO: Add distance calculation for initial value of both sides
-  private double left_command;
-  private double right_command;
 
   private boolean ALIGNED;  // Boolean to store status of alignment
 
@@ -57,8 +53,6 @@ public class AlignByVision extends CommandBase {
   public void initialize() {
     tx = listener.getOffset();  // Get current offset reading from camera
     // Reset Left and Right calculated motor values
-    left_command = 0;
-    right_command = 0;
     ALIGNED = false;
   }
 
@@ -103,26 +97,24 @@ public class AlignByVision extends CommandBase {
 
       // Get distance and apply proportional constant
       distance = m_drivetrain.ultrasonic_drive.getRangeInches();
-      distance_error = distance * kp_d;
 
-      left_command = distance_error + throttle;
-      right_command = distance_error - throttle;
+
+      distance_adjust = distance * kp_d;
 
       // Basic print statements and tank drive apply
       System.out.println("Distance: " + distance);
-      System.out.println("Distance Offset: " + distance_error);
-      System.out.println(left_command + " | " + right_command);
+      System.out.println("Distance Offset: " + distance_adjust);
       System.out.println(listener.isTargetFound());
 
       // Apply left and right command to drivetrain
-      m_drivetrain.tank_drive(left_command, right_command);
+      m_drivetrain.visionDrive(distance_adjust, throttle);
 
       if (tx < tx_tolerance && distance < distance_tolerance) {
         ALIGNED = true;
       }
 
     } else {
-      m_drivetrain.tank_drive(0, 0);
+      m_drivetrain.visionDrive(0, 0);
     }
 
   }
@@ -131,7 +123,7 @@ public class AlignByVision extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     System.out.println("Aligned!");
-    m_drivetrain.tank_drive(0, 0);
+    m_drivetrain.visionDrive(0, 0);
   }
 
 
