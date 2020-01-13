@@ -72,7 +72,7 @@ public class SpinToColor extends CommandBase {
 
   // Gets char of pattern two steps from target value
   private char getScaledTargetColor(char color) {
-    int targetIndex = getIndex(color) + offset >= colorPattern.length ? (getIndex(color) + offset) - colorPattern.length : getIndex(color) + offset;
+    int targetIndex = (getIndex(color) + 2) % 4;
     return colorPattern[targetIndex];
   }
   
