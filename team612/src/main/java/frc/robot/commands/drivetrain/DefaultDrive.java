@@ -30,7 +30,7 @@ public class DefaultDrive extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_drivetrain.tank_drive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5));
+    m_drivetrain.tankDrive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5));
   }
 
   // Called once the command ends or is interrupted.

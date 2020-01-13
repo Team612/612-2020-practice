@@ -7,6 +7,7 @@
 
 package frc.robot.subsystems;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.Ultrasonic;
@@ -24,10 +25,16 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonSRX br_wheel = new WPI_TalonSRX(2);
   private WPI_TalonSRX fl_wheel = new WPI_TalonSRX(6);
 
+  // IMU object
+  private ADIS16448_IMU imu = new ADIS16448_IMU(); 
+
   public Drivetrain() {
     // Enable the ultrasonic and set automatic mode
     ultrasonic_drive.setEnabled(true);
     ultrasonic_drive.setAutomaticMode(true);
+
+    // Calibrate the IMU on bootup
+    imu.calibrate();
   }
 
   @Override
@@ -42,13 +49,10 @@ public class Drivetrain extends SubsystemBase {
     fl_wheel.set(-left_command);
     bl_wheel.set(-left_command);
   }
-
-  public void visionDrive(double moveSpeed, double rotateSpeed) {
-    fr_wheel.set(moveSpeed - rotateSpeed);
-    br_wheel.set(moveSpeed - rotateSpeed);
-    fl_wheel.set(moveSpeed + rotateSpeed);
-    bl_wheel.set(moveSpeed + rotateSpeed);
+  
+  // Returns the angle from the IMU
+  public double getAngle() {
+    return imu.getAngle();
   }
-
   
 }

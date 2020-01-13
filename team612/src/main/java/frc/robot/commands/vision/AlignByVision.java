@@ -32,6 +32,9 @@ public class AlignByVision extends CommandBase {
   private double distance_tolerance = 0;
 
   private double throttle;  // Result of PID loop, then converted to tank drive
+  private double left_command;
+  private double right_command;
+  private double angle;  // Angle of drivetrain from IMU
 
   private NetworkTableListener listener;  // Listener object to update offset values
 
@@ -48,21 +51,18 @@ public class AlignByVision extends CommandBase {
     listener.createListeners();  
   }
 
-
   @Override
   public void initialize() {
     tx = listener.getOffset();  // Get current offset reading from camera
-    // Reset Left and Right calculated motor values
     ALIGNED = false;
-  }
 
+    // Reset Left and Right calculated motor values
+    left_command = 0;
+    right_command = 0;
+  }
 
   @Override
   public void execute() {
-    /*
-    https://readthedocs.org/projects/limelight/downloads/pdf/latest/
-    Chapter 11: Aiming and Range at the same time.
-    */
 
     if (listener.isTargetFound()) {
 
@@ -98,38 +98,45 @@ public class AlignByVision extends CommandBase {
       // Get distance and apply proportional constant
       distance = m_drivetrain.ultrasonic_drive.getRangeInches();
 
-
       distance_adjust = distance * kp_d;
+
+      // Three important values to move the drivetrain
+      left_command = distance_adjust - throttle;
+      right_command = distance_adjust + throttle;
+      angle = m_drivetrain.getAngle();
 
       // Basic print statements and tank drive apply
       System.out.println("Distance: " + distance);
       System.out.println("Distance Offset: " + distance_adjust);
-      System.out.println(listener.isTargetFound());
+      System.out.println("Throttle: " + throttle);
+      System.out.println("Target: " + listener.isTargetFound());
 
       // Apply left and right command to drivetrain
-      m_drivetrain.visionDrive(distance_adjust, throttle);
+      m_drivetrain.tankDrive(left_command, right_command);
 
       if (tx < tx_tolerance && distance < distance_tolerance) {
         ALIGNED = true;
       }
 
     } else {
-      m_drivetrain.visionDrive(0, 0);
+      m_drivetrain.tankDrive(0, 0);
     }
 
   }
 
-
   @Override
   public void end(boolean interrupted) {
     System.out.println("Aligned!");
-    m_drivetrain.visionDrive(0, 0);
+    m_drivetrain.tankDrive(0, 0);
   }
-
 
   @Override
   public boolean isFinished() {
     return ALIGNED;
+  }
+
+  private void gyroAlign() {
+    
   }
 
 }
