@@ -20,13 +20,7 @@ public class RobotContainer {
   private final RotateWheel c_rotatewheel = new RotateWheel(m_wheel);
   private final SpinToColor c_spintocolor = new SpinToColor(m_wheel);
 
-  private final SampleAuto m_sampleauto = new SampleAuto();
-
-  public static int frWheelPort = 1;
-  public static int flWheelPort = 1;
-  public static int brWheelPort = 1;
-  public static int blWheelPort = 1;
-  
+  private final SampleAuto m_sampleauto = new SampleAuto();  
 
   public RobotContainer() {
     configureButtonBindings();

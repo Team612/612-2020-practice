@@ -10,52 +10,59 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Ultrasonic;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.RobotContainer;
+import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
-  WPI_TalonSRX frTalon = new WPI_TalonSRX(RobotContainer.frWheelPort);
-  WPI_TalonSRX flTalon = new WPI_TalonSRX(RobotContainer.flWheelPort);
-  WPI_TalonSRX brTalon = new WPI_TalonSRX(RobotContainer.brWheelPort);
-  WPI_TalonSRX blTalon = new WPI_TalonSRX(RobotContainer.blWheelPort);
+  WPI_TalonSRX frTalon = new WPI_TalonSRX(Constants.frTalonPort);
+  WPI_TalonSRX flTalon = new WPI_TalonSRX(Constants.flTalonPort);
+  WPI_TalonSRX brTalon = new WPI_TalonSRX(Constants.brTalonPort);
+  WPI_TalonSRX blTalon = new WPI_TalonSRX(Constants.blTalonPort);
 
+  Ultrasonic ultrasonicDrive = new Ultrasonic(Constants.ultrasonicPingPort, Constants.ultrasonicEchoPort);
+  DoubleSolenoid solenoidDrive = new DoubleSolenoid(Constants.solenoidForwardChannel, Constants.solenoidReverseChannel);
+
+  
+  public void westCoastDrive(double leftCommand, double rightCommand, double deadzone) {
+    leftCommand = Math.abs(leftCommand) < deadzone ? 0.0 : leftCommand;
+    rightCommand = Math.abs(rightCommand) < deadzone ? 0.0 : rightCommand;
+
+    frTalon.set(rightCommand);
+    brTalon.set(rightCommand);
+    
+    flTalon.set(leftCommand);
+    frTalon.set(leftCommand);
+  }
+
+  public double getDistance() {
+    return ultrasonicDrive.getRangeInches();
+  }
+  
+  public void shiftForward() {
+    solenoidDrive.set(Value.kForward);
+    solenoidDrive.set(Value.kOff);
+  }
+
+  public void shiftReverse() {
+    solenoidDrive.set(Value.kReverse);
+    solenoidDrive.set(Value.kOff);
+  }
+  
   public Drivetrain() {
-    frTalon.setNeutralMode(NeutralMode.Brake);
-    flTalon.setNeutralMode(NeutralMode.Brake);
-    brTalon.setNeutralMode(NeutralMode.Brake);
-    blTalon.setNeutralMode(NeutralMode.Brake);
+    ultrasonicDrive.setEnabled(true);
+    ultrasonicDrive.setAutomaticMode(true);
   }
 
   @Override
   public void periodic() {
-
-  }
-  
-  public WPI_TalonSRX getTalon(int talon) {
-    switch (talon) {
-      case 1:
-        return frTalon;
-      case 2:
-        return flTalon;
-      case 3:
-        return brTalon;
-      case 4:
-        return blTalon;
-      default:
-        return null;
-    }
-  }
-
-  public enum DriveTalon {
-    FrontRight(1),
-    FrontLeft(2),
-    BackRight(3),
-    BackLeft(4);
-
-    public final int value;
-
-    private DriveTalon(int value) {
-      this.value = value;
-    }
+    SmartDashboard.putNumber("Back Left Drive Talon", blTalon.get());
+    SmartDashboard.putNumber("Back Right Drive Talon", brTalon.get());
+    SmartDashboard.putNumber("Front Left Drive Talon", flTalon.get());
+    SmartDashboard.putNumber("Front Right Drive Talon", frTalon.get());
+    SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
   }
 }
