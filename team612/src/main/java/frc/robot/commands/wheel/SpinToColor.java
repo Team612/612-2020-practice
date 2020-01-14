@@ -48,12 +48,13 @@ public class SpinToColor extends CommandBase {
   public void execute() {
     
     currentColor = m_wheel.getClosestColor();  // Current sensor reading updating each loop
+    System.out.println(currentColor);
+    System.out.println(sensorTarget);
+
     if(currentColor != sensorTarget){
       //motor move at power x
-      System.out.println("motor move x");
-    }
-    if (currentColor == sensorTarget){
-      //Stop motor
+      
+    } else {
       System.out.println("STOP!!!");
     }
 
