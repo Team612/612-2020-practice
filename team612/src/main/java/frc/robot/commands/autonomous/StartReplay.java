@@ -35,6 +35,7 @@ public class StartReplay extends CommandBase {
 
   @Override
   public void initialize() {
+    System.out.println(frames);
   }
 
 
@@ -44,7 +45,9 @@ public class StartReplay extends CommandBase {
     int i = 0;  // Current step in replay
 
     JSONObject frame = (JSONObject) frames.get(i);  // Get new frame
-
+    //System.out.println(((JSONObject) frame.get("0") ).get("axes"));
+    i++;
+    /*
     if (i < frame.size()) {  // Only replay for length of array
       // Get axis values from 0th port (driver), in axes list
       double leftSide = (double) getValueFromReplay(frame, 0, "axes", ControlMap.left_y_axis);
@@ -60,6 +63,7 @@ public class StartReplay extends CommandBase {
     } else {
       END_REPLAY = true;  // End the command once done
     }
+    */
 
   }
 
@@ -83,7 +87,7 @@ public class StartReplay extends CommandBase {
     try (FileReader reader = new FileReader(file_name)) {
 
       Object obj = jsonParser.parse(reader);  // Parsed object from JSON
-      
+      System.out.println(obj);
       return (JSONObject) obj;  // Cast and return JSON object
 
       // File opening error handling

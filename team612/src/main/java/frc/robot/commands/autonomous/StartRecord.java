@@ -24,7 +24,7 @@ public class StartRecord extends CommandBase {
   private double voltage;  // Store current voltage before replay
 
   public StartRecord(String OUTPUT_FILE) {  // Passs output file in constructor
-    OUTPUT_FILE = this.OUTPUT_FILE;
+    this.OUTPUT_FILE = OUTPUT_FILE;
   }
 
 
@@ -41,6 +41,7 @@ public class StartRecord extends CommandBase {
 
     JSONObject frame = capture(joysticks);  // Get the current JSON structure for this iteration
     frames.add(frame);  // Append the json frame to the array
+    System.out.println(frame);
 
   }
 
@@ -53,6 +54,7 @@ public class StartRecord extends CommandBase {
 
     save_json(export_json, DIRECTORY + OUTPUT_FILE);  // Save the final JSONArray to directory in ROBORIO
 
+    System.out.println(DIRECTORY + OUTPUT_FILE);
     System.out.println("Succesfully saved replay file!");
 
   }
@@ -81,7 +83,7 @@ public class StartRecord extends CommandBase {
       JSONObject pov = new JSONObject();
 
       for (int i = 0; i < joystick.getButtonCount(); i++) {
-        axes.put(i, joystick.getRawButton(i));
+        buttons.put(i, joystick.getRawButton(i));
       }
 
       for (int i = 0; i < joystick.getAxisCount(); i++) {
@@ -89,7 +91,7 @@ public class StartRecord extends CommandBase {
       }
 
       for (int i = 0; i < joystick.getPOVCount(); i++) {
-        axes.put(i, joystick.getPOV(i));
+        pov.put(i, joystick.getPOV(i));
       }
 
       // Combine the individual control groups into single joystick JSON object
@@ -112,6 +114,7 @@ public class StartRecord extends CommandBase {
 
     try (FileWriter file = new FileWriter(output_path)) {
       file.write(json_object.toJSONString());
+      System.out.println("Yeet");
     } catch (IOException e) {
       System.out.println("Unable to save JSON file");
       end(true);  // If error end the function
