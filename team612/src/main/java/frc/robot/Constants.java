@@ -1,5 +1,8 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.SPI.Port;
+
+
 public final class Constants {
     public static final int colorSensor = 1;
 
@@ -13,4 +16,8 @@ public final class Constants {
 
     public static int ultrasonicPingPort = 8;
     public static int ultrasonicEchoPort = 9;
+
+    public static Port navXPort = Port.kMXP;
+
+	
 }
