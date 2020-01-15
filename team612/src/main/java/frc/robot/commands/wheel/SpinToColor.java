@@ -7,37 +7,32 @@ import frc.robot.subsystems.Wheel;
 
 
 public class SpinToColor extends CommandBase {
-  private int arrayValue(char[] arrayName){
-    int a = -1;
-    for (int i = 0; i < arrayName.length; i++ ){
-        if (targetColor == colorPattern[i]){
-          return i; 
-        }
-      }
-      return a;
-    }
     
+  private char[] colorPattern = {'R', 'Y', 'B', 'G'};  // Pattern of wheel colors
   
-  char[] colorPattern = {'R', 'Y', 'B', 'G'};  // Pattern of wheel colors
-  
-  int offset = 2;  // Color offset (actual vs. target)
+  private int offset = 2;  // Color offset (actual vs. target)
 
-  char targetColor; // Actual target value (FMS)
-  char sensorTarget;  // Sensor target value (Since two colors behind on wheel) 
-  char currentColor;  // Current sensor value
+  private char targetColor; // Actual target value (FMS)
+  private char sensorTarget;  // Sensor target value (Since two colors behind on wheel) 
+  private char currentColor;  // Current sensor value
+  private int index;
 
-  boolean isComplete = false;  // Variable to end the command
+  private boolean isComplete = false;  // Variable to end the command
 
   private Wheel m_wheel;  // Local subsystem from wheel
 
   public SpinToColor(Wheel m_wheel) {
     this.m_wheel = m_wheel;
-    addRequirements(m_wheel); // needed?
+    addRequirements(m_wheel);
 
-    targetColor = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
-
-    int index = (arrayValue(colorPattern) + 2) % 4;
-    sensorTarget = colorPattern[index];
+    if (DriverStation.getInstance().getGameSpecificMessage().length() > 0) {
+      targetColor = DriverStation.getInstance().getGameSpecificMessage().charAt(0);
+      index = (getIndex(colorPattern) + offset) % 4;  // Get the color two steps from FMS reading
+      sensorTarget = colorPattern[index];  // Set the actual sensor color target
+    } else {
+      System.out.println("No color in FMS!");
+      end(true);
+    }
   }
 
   @Override
@@ -48,14 +43,15 @@ public class SpinToColor extends CommandBase {
   public void execute() {
     
     currentColor = m_wheel.getClosestColor();  // Current sensor reading updating each loop
-    System.out.println(currentColor);
-    System.out.println(sensorTarget);
+    
+    System.out.println("Reading: " + currentColor);
+    System.out.println("Target: " + sensorTarget);
 
-    if(currentColor != sensorTarget){
-      //motor move at power x
-      
+    if (currentColor != sensorTarget) {
+      // Move motor at fixed speed if not at target
     } else {
       System.out.println("STOP!!!");
+      isComplete = true;  // Once on the target value, stop the command
     }
 
 
@@ -63,12 +59,23 @@ public class SpinToColor extends CommandBase {
 
   @Override
   public void end(boolean interrupted) {
-    // TODO: Stop the m2otor
+    // TODO: Stop the motor
   }
 
   @Override
   public boolean isFinished() {
     return isComplete;
+  }
+
+  /* ----- Custom Functions ----- */
+
+  private int getIndex(char[] array) {
+    for (int i = 0; i < array.length; i++) {
+      if (targetColor == colorPattern[i]) {
+        return i; 
+      }
+    }
+    return -1;
   }
   
 }
