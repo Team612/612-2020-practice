@@ -9,13 +9,16 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
 
 public class Drivetrain extends SubsystemBase {
   WPI_TalonSRX frTalon = new WPI_TalonSRX(Constants.frTalonPort);
@@ -25,6 +28,9 @@ public class Drivetrain extends SubsystemBase {
 
   Ultrasonic ultrasonicDrive = new Ultrasonic(Constants.ultrasonicPingPort, Constants.ultrasonicEchoPort);
   DoubleSolenoid solenoidDrive = new DoubleSolenoid(Constants.solenoidForwardChannel, Constants.solenoidReverseChannel);
+  AHRS navX = new AHRS(Constants.navXPort);
+
+  private boolean drivePIDEnabled = false;
 
   
   public void westCoastDrive(double leftCommand, double rightCommand, double deadzone) {
@@ -51,6 +57,10 @@ public class Drivetrain extends SubsystemBase {
     solenoidDrive.set(Value.kReverse);
     solenoidDrive.set(Value.kOff);
   }
+//Enable/Disable drivePID assistance 
+  public void drivePID(){
+    drivePIDEnabled = !drivePIDEnabled;
+  }
   
   public Drivetrain() {
     ultrasonicDrive.setEnabled(true);
@@ -64,5 +74,7 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Front Left Drive Talon", flTalon.get());
     SmartDashboard.putNumber("Front Right Drive Talon", frTalon.get());
     SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
+    
+   
   }
 }
