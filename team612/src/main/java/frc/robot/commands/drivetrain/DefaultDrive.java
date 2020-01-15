@@ -11,7 +11,7 @@ public class DefaultDrive extends CommandBase {
 
   private final Drivetrain m_drivetrain;  // Local version of drivetrain
 
-  private final double DEADZONE = 0.1;  // Deadzone constant for joystick controllers
+  private final double DEADZONE = 0.05;  // Deadzone constant for joystick controllers
 
   // Constructor and add requirements from drivetrain subsystem
   public DefaultDrive(Drivetrain m_drivetrain) {
@@ -26,7 +26,7 @@ public class DefaultDrive extends CommandBase {
   @Override
   public void execute(){
     // Pass values from joystick to west coast drive with deadzone value
-    m_drivetrain.westCoastDrive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(4), DEADZONE);
+    m_drivetrain.westCoastDrive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5), DEADZONE);
   }
 
   @Override

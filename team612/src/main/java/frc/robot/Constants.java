@@ -3,10 +3,10 @@ package frc.robot;
 public final class Constants {
 
     // Drivetrain talon ports
-    public static int talon_fr_port = 1;
+    public static int talon_fr_port = 12;
     public static int talon_fl_port = 2;
-    public static int talon_br_port = 3;
-    public static int talon_bl_port = 4;
+    public static int talon_br_port = 13;
+    public static int talon_bl_port = 14;
 
     // Forward and reverse channel for drive double solenoid
     public static int solenoid_forward_channel = 5;

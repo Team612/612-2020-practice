@@ -33,8 +33,10 @@ public class Drivetrain extends SubsystemBase {
   // West coast drive function (same as tank drive)
   public void westCoastDrive(double leftCommand, double rightCommand, double deadzone) {  
     //sets up deadzones
-    leftCommand = leftCommand < deadzone ? 0.0 : leftCommand;
-    rightCommand = rightCommand < deadzone ? 0.0 : rightCommand;
+    leftCommand = Math.abs(leftCommand) < deadzone ? 0.0 : leftCommand;
+    rightCommand = Math.abs(rightCommand) < deadzone ? 0.0 : rightCommand;
+
+    System.out.println(leftCommand + " | " + rightCommand);
 
     //right side motor controls
     talon_fr_drive.set(rightCommand);
