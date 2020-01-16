@@ -36,7 +36,7 @@ public class Drivetrain extends SubsystemBase {
     x_axis = Math.abs(x_axis) < deadzone ? 0.0 : x_axis;
     y_axis = Math.abs(y_axis) < deadzone ? 0.0 : y_axis;
 
-    //right side motor controls
+    //WPI_Talon SRX Caps voltage at 1.0
     double leftCommand = y_axis + x_axis;
     double rightCommand = y_axis - x_axis;
     
