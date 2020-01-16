@@ -30,17 +30,19 @@ public class Drivetrain extends SubsystemBase {
   // Double solenoid for changing gears
   private DoubleSolenoid solenoid_drive = new DoubleSolenoid(Constants.solenoid_forward_channel, Constants.solenoid_reverse_channel);
 
-  // West coast drive function (same as tank drive)
-  public void westCoastDrive(double leftCommand, double rightCommand, double deadzone) {  
+  // Arcade drive function (same as tank drive)
+  public void arcadeDrive(double x_axis, double y_axis, double deadzone) {  
     //sets up deadzones
-    leftCommand = Math.abs(leftCommand) < deadzone ? 0.0 : leftCommand;
-    rightCommand = Math.abs(rightCommand) < deadzone ? 0.0 : rightCommand;
-
-    System.out.println(leftCommand + " | " + rightCommand);
+    x_axis = Math.abs(x_axis) < deadzone ? 0.0 : x_axis;
+    y_axis = Math.abs(y_axis) < deadzone ? 0.0 : y_axis;
 
     //right side motor controls
-    talon_fr_drive.set(rightCommand);
-    talon_br_drive.set(rightCommand);
+    double leftCommand = y_axis + x_axis;
+    double rightCommand = y_axis - x_axis;
+    
+    // right side motor controls
+    talon_br_drive.set(-rightCommand);
+    talon_br_drive.set(-rightCommand);
 
     //left side motor controls
     talon_fl_drive.set(leftCommand);
