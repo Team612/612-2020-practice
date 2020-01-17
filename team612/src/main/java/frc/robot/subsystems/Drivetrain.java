@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -29,11 +30,11 @@ public static void arcadeInput(double x_axis , double y_axis, double deadzone){
   double leftCommand = y_axis + x_axis;
   double rightCommand = y_axis - x_axis;
 
+  talon_fr.set(-rightCommand);
   talon_br.set(-rightCommand);
-  talon_bl.set(-rightCommand);
 
-  talon_fr.set(leftCommand);
   talon_fl.set(leftCommand);
+  talon_bl.set(leftCommand);
 
 
     
@@ -47,6 +48,7 @@ public static void arcadeInput(double x_axis , double y_axis, double deadzone){
 
   @Override
   public void periodic() {
+    
 
   }
   
