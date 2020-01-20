@@ -24,7 +24,7 @@ public class Velocity extends CommandBase {
   //private double[] currentAccelXYZ = {0, 0, 0}; //might want to use arrays
   private double initialAccelX; 
   private double initialAccelY; 
-  private double initialAccelZ; 4
+  private double initialAccelZ; 
 
   private double currentVelocityX;
   private double currentVelocityY;
