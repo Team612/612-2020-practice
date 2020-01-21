@@ -100,7 +100,7 @@ public class VelocityNavx extends CommandBase {
   }*/
 
   private void getAccelerometer(){
-    currentAccelX = navx.getWorldLinearAccelX()
+    currentAccelX = navx.getWorldLinearAccelX();
     currentAccelY = navx.getWorldLinearAccelY();
     currentAccelZ = navx.getWorldLinearAccelZ();
   }
