@@ -8,7 +8,7 @@
 package frc.robot.commands.drivetrain;
 
 import edu.wpi.first.wpilibj.Timer;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import com.analog.adis16448.frc.ADIS16448_IMU;
 
@@ -17,14 +17,26 @@ public class Velocity extends CommandBase {
   ADIS16448_IMU accel = new ADIS16448_IMU(/*port*/ );
   //Accelerometer accelerometer = new Accelerometer(X);
 
-  private double currentAccelX, initialAccelX; 
-  private double currentAccelY, initialAccelY;
-  private double currentAccelZ, initialAccelZ;
+  private double currentAccelX;
+  private double currentAccelY; 
+  private double currentAccelZ; 
+
+  private double initialAccelX = 0;
+  private double initialAccelY =0;
+  private double initialAccelZ = 0;
+  private double initialVelocityX = 0; 
+  private double initialVelocityY = 0;
+  private double initialVelocityZ = 0;
 
   private double currentVelocityZ = 0;
   private double currentVelocityY = 0;
   private double currentVelocityX = 0; 
 
+  private double displacementZ = 0;
+  private double displacementY = 0;
+  private double displacementX = 0; 
+
+  // Velocity 
   Timer timer = new Timer(); 
 
   
@@ -36,33 +48,61 @@ public class Velocity extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    timer.start();
+    
     System.out.println(timer.get());
-    timer.reset();
+    
 
     System.out.println(accel.getAccelInstantX());
     System.out.println(accel.getAccelInstantY());
     System.out.println(accel.getAccelInstantZ());
+
 
     currentAccelX = accel.getAccelInstantX();
     currentAccelY = accel.getAccelInstantY();
     currentAccelZ = accel.getAccelInstantZ();
 
 
-    currentVelocityX = ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
-    currentVelocityY = ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
-    currentVelocityZ = ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
+    currentVelocityX += ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
+    currentVelocityY += ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
+    currentVelocityZ += ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
+    
+    
+    System.out.println(currentVelocityX);
+    System.out.println(currentVelocityY);
+    System.out.println(currentVelocityZ);
 
+    System.out.println(initialVelocityX);
+    System.out.println(initialVelocityY);
+    System.out.println(initialVelocityZ);
 
+    System.out.println(displacementX);
+    System.out.println(displacementY);
+    System.out.println(displacementZ);
+
+    // update acceleration 
     initialAccelZ = currentAccelZ; 
     initialAccelY = currentAccelY; 
     initialAccelX = currentAccelX; 
+
+    //displacement calculation
+    displacementX += ((initialVelocityX + currentVelocityX)/2.0)*(currentTimer - initialTimer);
+    displacementY += ((initialVelocityY + currentVelocityY)/2.0)*(currentTimer - initialTimer);
+    displacementZ += ((initialVelocityZ + currentVelocityZ)/2.0)*(currentTimer - initialTimer);
+
+    //update velocity 
+    initialVelocityZ = currentVelocityZ; 
+    initialVelocityY = currentVelocityY; 
+    initialVelocityX = currentVelocityX;
+
+    SmartDashboard.putNumber("positionX", displacementX);
+    SmartDashboard.putNumber("positionY", displacementY);
+    SmartDashboard.putNumber("positionZ", displacementZ);    
 
     initialTimer = currentTimer; 
     
