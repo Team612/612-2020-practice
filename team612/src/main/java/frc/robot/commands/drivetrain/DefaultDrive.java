@@ -6,8 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 
 public class DefaultDrive extends CommandBase {
 
-  public static final double deadzone = 0.1;
-
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final Drivetrain m_drivetrain;
 
@@ -20,12 +18,12 @@ public class DefaultDrive extends CommandBase {
   public void initialize() {
   }
 
-  //very interesting code can be interpreted as an ode 
+  //very interesting code can be interpreted as an ode  XDXDXDXDXDXXDXDXDXXDXDXDXDXDXDXDXDXDXDX
   @Override
   public void execute() {
-    Drivetrain.arcadeInput(ControlMap.driver.getRawAxis(4), ControlMap.driver.getRawAxis(1), deadzone);
+    Drivetrain.arcadeInput(ControlMap.driver.getRawAxis(ControlMap.right_axis_X), ControlMap.driver.getRawAxis(ControlMap.left_axis_Y));
   }
-  //very cool awesome code much amaze we hart kai senpai c'mere retards lololo
+  //very cool awesome code much amaze we hart kai senpai c'mere retards lololol
   @Override
   public void end(boolean interrupted) {
   }

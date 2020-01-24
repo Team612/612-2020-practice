@@ -3,11 +3,17 @@ package frc.robot.controls;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 
-public class ControlMap {
+public class ControlMap{
 
     // Controller objects
     public static Joystick driver = new Joystick(0);
     public static Joystick gunner = new Joystick(1);
+
+    //Axes ports
+    public static int left_axis_Y = 4;
+    public static int left_axis_X = 4;
+    public static int right_axis_X = 1;
+    public static int right_axis_Y = 1;
 
     // TODO: Add controller trigger axises
 
