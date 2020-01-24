@@ -36,6 +36,10 @@ public class Velocity extends CommandBase {
   private double displacementY = 0;
   private double displacementX = 0; 
 
+  private double positionX = 0;
+  private double positionY = 0;
+  private double positionZ = 0;
+
   // Velocity 
   Timer timer = new Timer(); 
 
@@ -68,10 +72,9 @@ public class Velocity extends CommandBase {
     currentAccelZ = accel.getAccelInstantZ();
 
 
-    currentVelocityX += ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
-    currentVelocityY += ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
-    currentVelocityZ += ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
-    
+    currentVelocityX = initialVelocityX + ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
+    currentVelocityY =  initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
+    currentVelocityZ =  initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
     
     System.out.println(currentVelocityX);
     System.out.println(currentVelocityY);
@@ -91,23 +94,29 @@ public class Velocity extends CommandBase {
     initialAccelX = currentAccelX; 
 
     //displacement calculation
-    displacementX += ((initialVelocityX + currentVelocityX)/2.0)*(currentTimer - initialTimer);
-    displacementY += ((initialVelocityY + currentVelocityY)/2.0)*(currentTimer - initialTimer);
-    displacementZ += ((initialVelocityZ + currentVelocityZ)/2.0)*(currentTimer - initialTimer);
+    displacementX = ((initialVelocityX + currentVelocityX)/2.0)*(currentTimer - initialTimer);
+    displacementY = ((initialVelocityY + currentVelocityY)/2.0)*(currentTimer - initialTimer);
+    displacementZ = ((initialVelocityZ + currentVelocityZ)/2.0)*(currentTimer - initialTimer);
+
+    positionX += displacementX;
+    positionY += displacementY;
+    positionZ += displacementZ;
 
     //update velocity 
     initialVelocityZ = currentVelocityZ; 
     initialVelocityY = currentVelocityY; 
     initialVelocityX = currentVelocityX;
 
-    SmartDashboard.putNumber("positionX", displacementX);
-    SmartDashboard.putNumber("positionY", displacementY);
-    SmartDashboard.putNumber("positionZ", displacementZ);    
+    SmartDashboard.putNumber("positionX", positionX);
+    SmartDashboard.putNumber("positionY", positionY);
+    SmartDashboard.putNumber("positionZ", positionZ);    
+    SmartDashboard.putNumber("VelocityX", currentVelocityX);
+    SmartDashboard.putNumber("VelocityY", currentVelocityY);
+    SmartDashboard.putNumber("VelocityZ", currentVelocityZ);
+    
 
     initialTimer = currentTimer; 
     
-    
-
   }
 
   // Called once the command ends or is interrupted.
