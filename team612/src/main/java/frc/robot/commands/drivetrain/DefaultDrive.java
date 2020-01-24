@@ -20,11 +20,12 @@ public class DefaultDrive extends CommandBase {
   public void initialize() {
   }
 
+  //very interesting code can be interpreted as an ode 
   @Override
   public void execute() {
-    Drivetrain.arcadeInput(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5), deadzone);
+    Drivetrain.arcadeInput(ControlMap.driver.getRawAxis(4), ControlMap.driver.getRawAxis(1), deadzone);
   }
-
+  //very cool awesome code much amaze we hart kai senpai c'mere retards lololo
   @Override
   public void end(boolean interrupted) {
   }

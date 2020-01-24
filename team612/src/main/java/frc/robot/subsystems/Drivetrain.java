@@ -27,22 +27,23 @@ public static void arcadeInput(double x_axis , double y_axis, double deadzone){
   x_axis = Math.abs(x_axis) < deadzone ? 0.0 : x_axis;
   y_axis = Math.abs(y_axis) < deadzone ? 0.0 : y_axis;
   
-  double leftCommand = y_axis + x_axis;
-  double rightCommand = y_axis - x_axis;
+  double leftCommand = y_axis - x_axis;
+  double rightCommand = y_axis + x_axis;
 
-  talon_fr.set(-rightCommand);
-  talon_br.set(-rightCommand);
+  talon_fr.set(rightCommand);
+  talon_br.set(rightCommand);
 
   talon_fl.set(leftCommand);
   talon_bl.set(leftCommand);
 
-
-    
-  
-
+  System.out.println(x_axis);
+  System.out.println(y_axis);
 }
 
   public Drivetrain() {
+
+    talon_fr.setInverted(true);
+    talon_br.setInverted(true);
 
   }
 
