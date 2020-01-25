@@ -1,15 +1,23 @@
+//OI, which stood for Output Input, is now Controls
+
+
+//Come from RobotContainer
+
 package frc.robot.controls;
 
-import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.Constants;
 
 public class ControlMap {
 
-    // Controller objects
-    private static Joystick driver = new Joystick(0);
-    private static Joystick gunner = new Joystick(1);
+    //All this below was, for the most part, copied from the Master branch on GitHub.
 
-    // TODO: Add controller trigger axises
+
+    // Controller objects
+    public static XboxController driver = new XboxController(Constants.Driver_port);
+    public static XboxController gunner = new XboxController(Constants.Gunner_port);
+
 
     // Driver buttons
     public static JoystickButton driver_button_A    	= new JoystickButton(driver,1);
@@ -36,3 +44,5 @@ public class ControlMap {
     public static JoystickButton gunner_button_RJ   	= new JoystickButton(gunner,10);
 
 }
+
+//FINALLY, go to DefaultPhoenixDrive
