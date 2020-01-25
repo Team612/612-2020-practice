@@ -21,8 +21,12 @@ public class Velocity extends CommandBase {
   private double currentAccelY; 
   private double currentAccelZ; 
 
+  private double strgAccelX = 0;
+  private double strgAccelY = 0;
+  private double strgAccelZ = 0;
+
   private double initialAccelX = 0;
-  private double initialAccelY =0;
+  private double initialAccelY = 0;
   private double initialAccelZ = 0;
   private double initialVelocityX = 0; 
   private double initialVelocityY = 0;
@@ -39,6 +43,9 @@ public class Velocity extends CommandBase {
   private double positionX = 0;
   private double positionY = 0;
   private double positionZ = 0;
+
+  private int loop = 0;
+  private int iterationCount = 3;
 
   // Velocity 
   Timer timer = new Timer(); 
@@ -58,23 +65,30 @@ public class Velocity extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    System.out.println(timer.get());
-    
 
-    System.out.println(accel.getAccelInstantX());
-    System.out.println(accel.getAccelInstantY());
-    System.out.println(accel.getAccelInstantZ());
+    currentAccelX = accel.getAccelInstantX() * 9.8;
+    currentAccelY = accel.getAccelInstantY() * 9.8;
+    currentAccelZ = accel.getAccelInstantZ() * 9.8;
 
+    strgAccelX += currentAccelX;
+    strgAccelY += currentAccelY;
+    strgAccelZ += currentAccelZ;
 
-    currentAccelX = accel.getAccelInstantX();
-    currentAccelY = accel.getAccelInstantY();
-    currentAccelZ = accel.getAccelInstantZ();
+    loop++;
+    if(loop >= iterationCount) {
 
+    currentAccelX = strgAccelX/iterationCount;
+    currentAccelY = strgAccelY/iterationCount;
+    currentAccelZ = strgAccelZ/iterationCount;
+
+    loop = 0;
+    strgAccelX = 0;
+    strgAccelY = 0;
+    strgAccelZ = 0;
 
     currentVelocityX = initialVelocityX + ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
-    currentVelocityY =  initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
-    currentVelocityZ =  initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
+    currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
+    currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
     
     System.out.println(currentVelocityX);
     System.out.println(currentVelocityY);
@@ -116,7 +130,7 @@ public class Velocity extends CommandBase {
     
 
     initialTimer = currentTimer; 
-    
+    }
   }
 
   // Called once the command ends or is interrupted.
