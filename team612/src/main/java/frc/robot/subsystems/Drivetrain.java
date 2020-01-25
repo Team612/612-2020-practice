@@ -7,8 +7,7 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
@@ -18,11 +17,11 @@ import frc.robot.Constants;
 
 public class Drivetrain extends SubsystemBase {
 
-  // Talons for drivetrain
-  private WPI_TalonSRX talon_fr_drive = new WPI_TalonSRX(Constants.talon_fr_port);
-  private WPI_TalonSRX talon_fl_drive = new WPI_TalonSRX(Constants.talon_fl_port);
-  private WPI_TalonSRX talon_br_drive = new WPI_TalonSRX(Constants.talon_br_port);
-  private WPI_TalonSRX talon_bl_drive = new WPI_TalonSRX(Constants.talon_bl_port);
+  // Sparks for drivetrain
+  private Spark Spark_fr_drive = new Spark(Constants.Spark_fr_port);
+  private Spark Spark_fl_drive = new Spark(Constants.Spark_fl_port);
+  private Spark Spark_br_drive = new Spark(Constants.Spark_br_port);
+  private Spark Spark_bl_drive = new Spark(Constants.Spark_bl_port);
 
   // Ultrasonic sensor for drive
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
@@ -39,12 +38,12 @@ public class Drivetrain extends SubsystemBase {
     System.out.println(leftCommand + " | " + rightCommand);
 
     //right side motor controls
-    talon_fr_drive.set(rightCommand);
-    talon_br_drive.set(rightCommand);
+    Spark_fr_drive.set(rightCommand);
+    Spark_br_drive.set(rightCommand);
 
     //left side motor controls
-    talon_fl_drive.set(leftCommand);
-    talon_bl_drive.set(leftCommand);
+    Spark_fl_drive.set(leftCommand);
+    Spark_bl_drive.set(leftCommand);
   }
 
   // Get distance in inches from ultrasonic in drive
@@ -74,10 +73,10 @@ public class Drivetrain extends SubsystemBase {
   @Override
   public void periodic() {
     // Shuffle board values
-    SmartDashboard.putNumber("Back Left Drive Talon", talon_bl_drive.get());
-    SmartDashboard.putNumber("Back Right Drive Talon", talon_br_drive.get());
-    SmartDashboard.putNumber("Front Left Drive Talon", talon_fl_drive.get());
-    SmartDashboard.putNumber("Front RIght Drive Talon", talon_fr_drive.get());
+    SmartDashboard.putNumber("Back Left Drive Spark", Spark_bl_drive.get());
+    SmartDashboard.putNumber("Back Right Drive Spark", Spark_br_drive.get());
+    SmartDashboard.putNumber("Front Left Drive Spark", Spark_fl_drive.get());
+    SmartDashboard.putNumber("Front RIght Drive Spark", Spark_fr_drive.get());
     SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
   }
   
