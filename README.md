@@ -1,2 +1,2 @@
 # 612-2020
-Chantilly Robotics Team 612 Repository for 2020
+Practice robot code for 2020 FRC
