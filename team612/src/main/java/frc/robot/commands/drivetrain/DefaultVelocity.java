@@ -111,6 +111,15 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
     currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
     
+    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.08) {
+      currentVelocityX = 0;
+    }
+    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.08) {
+      currentVelocityY = 0;
+    }
+    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 0.08) {
+      currentVelocityZ = 0;
+    }
     /*
     System.out.println(currentVelocityX);
     System.out.println(currentVelocityY);
