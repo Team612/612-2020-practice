@@ -127,8 +127,10 @@ public class Velocity extends CommandBase {
     SmartDashboard.putNumber("VelocityX", currentVelocityX);
     SmartDashboard.putNumber("VelocityY", currentVelocityY);
     SmartDashboard.putNumber("VelocityZ", currentVelocityZ);
+    System.out.println(currentAccelX);
+    System.out.println(currentAccelY);
+    System.out.println(currentAccelZ);
     
-
     initialTimer = currentTimer; 
     }
   }
