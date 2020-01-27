@@ -25,6 +25,7 @@ public class DefaultPhoenixDrive extends CommandBase {
         "PMD.SingularField"
     })
     private final PhoenixDrive m_drivetrain;
+    //WPI shows warning here, underline m_drivetrain.
 
     public DefaultPhoenixDrive(PhoenixDrive m_drivetrain) {
         this.m_drivetrain = m_drivetrain;
@@ -40,39 +41,46 @@ public class DefaultPhoenixDrive extends CommandBase {
     public void initialize() {}
     @Override
     public void execute() {
-
         //Set joystick values and controls here, under execute.
+
         if (Math.abs(getYAxis) > 0.1 && Math.abs(getXAxis) < 0.1) {
+            //Here, the variable "getYAxis" is used.
             // If the left joystick is being moved, but not the right, then:
             System.out.println("This is moving forward or backward");
             //Print this line is so that we can verify that the code is working.
             RobotContainer.m_drivetrain.talon_fr.set(getYAxis);
-            //set these talons to whatever that y value is.
-            //Here, the variable "getYAxis" is used.
             RobotContainer.m_drivetrain.talon_fl.set(getYAxis);
             RobotContainer.m_drivetrain.talon_br.set(getYAxis);
             RobotContainer.m_drivetrain.talon_bl.set(getYAxis);
-            //All talons are moving with whatever the Y axis value is.
+            //set these talons to whatever that y value is.
+
         } else if (Math.abs(getYAxis) > 0.1 && (getXAxis) > 0.1) {
             //If the left joystick is moving AND the right joystick is moving to the right (i.e. robot making a right), then:
             System.out.println("This is moving to the right");
-            //Again, verifies that the code is working
-            RobotContainer.m_drivetrain.talon_br.set(0.5 * getYAxis);
-            RobotContainer.m_drivetrain.talon_fr.set(0.5 * getYAxis);
-            //Multiply the value of the Y axis by 1/2.
-            RobotContainer.m_drivetrain.talon_bl.set(getXAxis);
-            RobotContainer.m_drivetrain.talon_fl.set(getXAxis);
-            //This talon will be going at the X axis speed
-            //This is done so that the right talons will move slower than the left ones, thus making the robot rotate right.
-            //Right talons != 0 bc then robot will only go forward and right, you can't go back right.
-        } else if (Math.abs(getYAxis) > 0.1 && (getXAxis) < 0.1) {
+            RobotContainer.m_drivetrain.talon_br.set(0.05 * getYAxis);
+            RobotContainer.m_drivetrain.talon_fr.set(0.05 * getYAxis);
+            //These talons will be at this value, not 0, to ensure A) that the Y Axis value is always a factor,
+            //B) that these talons' values are always less than the other talons.
+            RobotContainer.m_drivetrain.talon_bl.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            RobotContainer.m_drivetrain.talon_fl.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            //Whether the X axis is positive or negative shouldn't impact what direction a talon moves.
+            //It only impacts which set of talons move. This is why there is the absolute value on the X.
+            //The Y axis direction impacts which direction should move, which is whyY Axis is divided by its abs value.
+            //If the Y Axis value is negative, the X Axis will move in that direction. If positive, same thing.
+            //Example: moving forward right: Right talons movement: (postive/positive)*positive. Left: positive
+            //Moving backward right: right: ((negative/positive)*postive). Left: negative
+
+        } else if (Math.abs(getYAxis) > 0.1 && (getXAxis) < -0.1) {
             //If the left joystick is moving and the right is moving to the left (i.e. robot making a left):
             System.out.println("This is moving to the left");
-            RobotContainer.m_drivetrain.talon_fr.set(getXAxis);
-            RobotContainer.m_drivetrain.talon_br.set(getXAxis);
-            RobotContainer.m_drivetrain.talon_fl.set(0.5 * getYAxis);
-            RobotContainer.m_drivetrain.talon_bl.set(0.5 * getYAxis);
+            RobotContainer.m_drivetrain.talon_fr.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            RobotContainer.m_drivetrain.talon_br.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            RobotContainer.m_drivetrain.talon_fl.set(0.05 * getYAxis);
+            RobotContainer.m_drivetrain.talon_bl.set(0.05 * getYAxis);
             //Same concept as above
+            //Example: moving forward left: Right talons movement: (postive/positive)*positive. Left: positive
+            //Moving backward left: right: ((negative/positive)*postive). Left: negative
+
         } else if (Math.abs(getYAxis) < 0.1 && (Math.abs(getXAxis) < 0.1)) {
             System.out.println("This is not moving at all");
             //But if neither joystick moves, then don't move the robot.
