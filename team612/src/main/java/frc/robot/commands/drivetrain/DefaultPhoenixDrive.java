@@ -67,6 +67,8 @@ public class DefaultPhoenixDrive extends CommandBase {
         */
         SmartDashboard.putNumber("Left Command", leftCommand);
         SmartDashboard.putNumber("Right Command", rightCommand);
+        SmartDashboard.putNumber("Xvalue", getXAxis);
+        SmartDashboard.putNumber("Yvalue", getYAxis);
     
         //Set joystick values and controls here, under execute.
         //All the right negative talons are multiplied by negative 1 because it's optimized for Rico.
