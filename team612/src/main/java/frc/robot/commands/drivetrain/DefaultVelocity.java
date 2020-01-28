@@ -28,6 +28,9 @@ public class DefaultVelocity extends CommandBase implements Sendable{
   private double strgAccelX = 0;
   private double strgAccelY = 0;
   private double strgAccelZ = 0;
+  private double strgVelocityX = 0;
+  private double strgVelocityY = 0;
+  private double strgVelocityZ = 0;
 
   private double initialAccelX = 0;
   private double initialAccelY = 0;
@@ -50,6 +53,7 @@ public class DefaultVelocity extends CommandBase implements Sendable{
 
   private int loop = 0;
   private int iterationCount = 5;
+  private int vLoop = 0;
 
   // Velocity 
   Timer timer = new Timer();
@@ -83,7 +87,7 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     if(Math.abs(currentAccelY) < 0.2) {
       currentAccelY = 0;
     }
-    if(Math.abs(currentAccelZ) < 0.22) {
+    if(Math.abs(currentAccelZ) < 0.3) {
       currentAccelZ = 0;
     }
 
@@ -96,6 +100,7 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     //SmartDashboard.putNumber("StrgZ", strgAccelZ);
 
     loop++;
+    vLoop++;
     if(loop >= iterationCount) {
 
     currentAccelX = (strgAccelX/iterationCount);
@@ -111,28 +116,15 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
     currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
     
-    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.08) {
+    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.32 && Math.abs(currentVelocityX) < (Math.abs(strgVelocityX) + 0.2)) {
       currentVelocityX = 0;
     }
-    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.08) {
+    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.32 && Math.abs(currentVelocityY) < (Math.abs(strgVelocityY) + 0.2)) {
       currentVelocityY = 0;
     }
-    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 0.08) {
+    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 0.32 && Math.abs(currentVelocityZ) < (Math.abs(strgVelocityZ) + 0.2)) {
       currentVelocityZ = 0;
     }
-    /*
-    System.out.println(currentVelocityX);
-    System.out.println(currentVelocityY);
-    System.out.println(currentVelocityZ);
-
-    System.out.println(initialVelocityX);
-    System.out.println(initialVelocityY);
-    System.out.println(initialVelocityZ);
-
-    System.out.println(displacementX);
-    System.out.println(displacementY);
-    System.out.println(displacementZ);
-    */
 
     // update acceleration 
     initialAccelZ = currentAccelZ; 
@@ -166,14 +158,14 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     SmartDashboard.putNumber("AccelerationX", currentAccelX);
     SmartDashboard.putNumber("AccelerationY", currentAccelY);
     SmartDashboard.putNumber("AccelerationZ", currentAccelZ);
-    
-    /*
-    System.out.println(currentAccelX);
-    System.out.println(currentAccelY);
-    System.out.println(currentAccelZ);
-    */
 
     initialTimer = currentTimer; 
+    }
+    if(vLoop >= 25) {
+      vLoop = 0;
+      strgVelocityX = currentVelocityX;
+      strgVelocityY = currentVelocityY;
+      strgVelocityZ = currentVelocityZ;
     }
   }
 
