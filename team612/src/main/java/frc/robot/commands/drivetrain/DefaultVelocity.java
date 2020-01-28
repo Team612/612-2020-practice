@@ -105,67 +105,67 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     vLoop++;
     if(loop >= iterationCount) {
 
-    currentAccelX = (strgAccelX/iterationCount);
-    currentAccelY = (strgAccelY/iterationCount);
-    currentAccelZ = (strgAccelZ/iterationCount);
+      currentAccelX = (strgAccelX/iterationCount);
+     currentAccelY = (strgAccelY/iterationCount);
+     currentAccelZ = (strgAccelZ/iterationCount);
 
-    loop = 0;
-    strgAccelX = 0;
-    strgAccelY = 0;
-    strgAccelZ = 0;
+      loop = 0;
+      strgAccelX = 0;
+      strgAccelY = 0;
+      strgAccelZ = 0;
 
-    currentVelocityX = initialVelocityX + ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
-    currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
-    currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
-    //currentVelocityX = accel.getVelocityX();
-    //currentVelocityY = accel.getVelocityY();
-    //currentVelocityZ = accel.getVelocityZ();
+      currentVelocityX = initialVelocityX + ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
+      currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
+      currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
+      //currentVelocityX = accel.getVelocityX();
+      //currentVelocityY = accel.getVelocityY();
+      //currentVelocityZ = accel.getVelocityZ();
     
-    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.8 && Math.abs(currentVelocityX) < (Math.abs(strgVelocityX) + 0.15)) {
-      currentVelocityX = 0;
-    }
-    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.8 && Math.abs(currentVelocityY) < (Math.abs(strgVelocityY) + 0.15)) {
-      currentVelocityY = 0;
-    }
-    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 1.2 && Math.abs(currentVelocityZ) < (Math.abs(strgVelocityZ) + 0.15)) {
-      currentVelocityZ = 0;
-    }
+     if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.8 && Math.abs(currentVelocityX) < (Math.abs(strgVelocityX) + 0.15)) {
+        currentVelocityX = 0;
+      }
+      if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.8 && Math.abs(currentVelocityY) < (Math.abs(strgVelocityY) + 0.15)) {
+       currentVelocityY = 0;
+      }
+      if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 1.2 && Math.abs(currentVelocityZ) < (Math.abs(strgVelocityZ) + 0.15)) {
+        currentVelocityZ = 0;
+      }
     
 
-    // update acceleration 
-    initialAccelZ = currentAccelZ; 
-    initialAccelY = currentAccelY; 
-    initialAccelX = currentAccelX; 
+      // update acceleration 
+      initialAccelZ = currentAccelZ; 
+      initialAccelY = currentAccelY; 
+      initialAccelX = currentAccelX; 
 
-    //displacement calculation
-    displacementX = ((initialVelocityX + currentVelocityX)/2.0)*(currentTimer - initialTimer);
-    displacementY = ((initialVelocityY + currentVelocityY)/2.0)*(currentTimer - initialTimer);
-    displacementZ = ((initialVelocityZ + currentVelocityZ)/2.0)*(currentTimer - initialTimer);
+      //displacement calculation
+      displacementX = ((initialVelocityX + currentVelocityX)/2.0)*(currentTimer - initialTimer);
+      displacementY = ((initialVelocityY + currentVelocityY)/2.0)*(currentTimer - initialTimer);
+      displacementZ = ((initialVelocityZ + currentVelocityZ)/2.0)*(currentTimer - initialTimer);
 
-    positionX += displacementX;
-    positionY += displacementY;
-    positionZ += displacementZ;
+      positionX += displacementX;
+      positionY += displacementY;
+      positionZ += displacementZ;
 
-    displacementX = 0;
-    displacementY = 0;
-    displacementZ = 0;
+      displacementX = 0;
+      displacementY = 0;
+      displacementZ = 0;
 
-    //update velocity 
-    initialVelocityZ = currentVelocityZ; 
-    initialVelocityY = currentVelocityY; 
-    initialVelocityX = currentVelocityX;
+      //update velocity 
+      initialVelocityZ = currentVelocityZ; 
+      initialVelocityY = currentVelocityY; 
+      initialVelocityX = currentVelocityX;
     
-    SmartDashboard.putNumber("positionX", positionX);
-    SmartDashboard.putNumber("positionY", positionY);
-    SmartDashboard.putNumber("positionZ", positionZ);    
-    SmartDashboard.putNumber("VelocityX", currentVelocityX);
-    SmartDashboard.putNumber("VelocityY", currentVelocityY);
-    SmartDashboard.putNumber("VelocityZ", currentVelocityZ);
-    SmartDashboard.putNumber("AccelerationX", currentAccelX);
-    SmartDashboard.putNumber("AccelerationY", currentAccelY);
-    SmartDashboard.putNumber("AccelerationZ", currentAccelZ);
+      SmartDashboard.putNumber("positionX", positionX);
+      SmartDashboard.putNumber("positionY", positionY);
+      SmartDashboard.putNumber("positionZ", positionZ);    
+      SmartDashboard.putNumber("VelocityX", currentVelocityX);
+      SmartDashboard.putNumber("VelocityY", currentVelocityY);
+      SmartDashboard.putNumber("VelocityZ", currentVelocityZ);
+      SmartDashboard.putNumber("AccelerationX", currentAccelX);
+      SmartDashboard.putNumber("AccelerationY", currentAccelY);
+      SmartDashboard.putNumber("AccelerationZ", currentAccelZ);
 
-    initialTimer = currentTimer; 
+      initialTimer = currentTimer; 
     }
     if(vLoop >= 25) {
       vLoop = 0;
