@@ -18,11 +18,11 @@ package frc.robot;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-    //Set the ports here. These ports are based on Rico. They have not been updated as of Jan. 25
-    public static int talon_fl_port = 6;
-    public static int talon_fr_port = 3;
-    public static int talon_bl_port = 7;
-    public static int talon_br_port = 2;
+    //Set the ports here. These ports are based on the practice bot as of 1/27
+    public static int talon_fl_port = 14;
+    public static int talon_fr_port = 15;
+    public static int talon_bl_port = 0;
+    public static int talon_br_port = 1;
     public static int Driver_port = 0;
     public static int Gunner_port = 1;
     //THEN, go to RobotContainer

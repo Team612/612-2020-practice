@@ -11,10 +11,10 @@
 
 package frc.robot.commands.drivetrain;
 
-import frc.robot.RobotContainer;
 import frc.robot.controls.ControlMap;
 import frc.robot.subsystems.PhoenixDrive;
 import edu.wpi.first.wpilibj.GenericHID.Hand;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 
@@ -41,10 +41,37 @@ public class DefaultPhoenixDrive extends CommandBase {
         double getYAxis = ControlMap.driver.getY(Hand.kLeft);
         double getXAxis = ControlMap.driver.getX(Hand.kRight);
         //This will set a variable for the commands below
+        System.out.println(getXAxis+ " " + getYAxis);
+        double leftCommand = getYAxis + getXAxis;
+        double rightCommand = getYAxis - getXAxis;
+        //These variables assign parameters for the right and left talons.
+        if(leftCommand > 1) {
+            leftCommand = 1;
+        }
+        if(rightCommand > 1) {
+            rightCommand = 1;
+        }
+        if(leftCommand < -1) {
+            leftCommand = -1;
+        }
+        if(rightCommand < -1) {
+            rightCommand = -1;
+        }
+        //Just as a precaution.
+        m_drivetrain.talon_fr.set(rightCommand);
+        m_drivetrain.talon_br.set(rightCommand);
+        m_drivetrain.talon_fl.set(leftCommand);
+        m_drivetrain.talon_bl.set(leftCommand);
+        /* When turning right without accelerating, the Y value will be 0, the X value can be 1.
+        The right talons will have a value of 0-1=-1, whereas the left talons will have a value of 0+1=1.
+        */
+        SmartDashboard.putNumber("Left Command", leftCommand);
+        SmartDashboard.putNumber("Right Command", rightCommand);
     
         //Set joystick values and controls here, under execute.
         //All the right negative talons are multiplied by negative 1 because it's optimized for Rico.
         //The code will be changed for the competition bot.
+        /* Could've done this, but the above method is shorter.
         if (Math.abs(getYAxis) > 0.1 && Math.abs(getXAxis) < 0.1) {
             //Here, the variable "getYAxis" is used.
             // If the left joystick is being moved, but not the right, then:
@@ -91,6 +118,7 @@ public class DefaultPhoenixDrive extends CommandBase {
             RobotContainer.m_drivetrain.talon_br.set(0);
             RobotContainer.m_drivetrain.talon_bl.set(0);
         }
+        */
 
     }
 

@@ -11,10 +11,10 @@ import frc.robot.Constants;
 
 public class PhoenixDrive extends SubsystemBase {
   //set these talons
-  public WPI_TalonSRX talon_fl = new WPI_TalonSRX(Constants.talon_fl_port);
-  public WPI_TalonSRX talon_bl = new WPI_TalonSRX(Constants.talon_bl_port);
-  public WPI_TalonSRX talon_fr = new WPI_TalonSRX(Constants.talon_fr_port);
-  public WPI_TalonSRX talon_br = new WPI_TalonSRX(Constants.talon_br_port);
+  public WPI_TalonSRX talon_fl = new WPI_TalonSRX(Constants.talon_fl_port); //command to move front left motor
+  public WPI_TalonSRX talon_bl = new WPI_TalonSRX(Constants.talon_bl_port); //command to move back left motor
+  public WPI_TalonSRX talon_fr = new WPI_TalonSRX(Constants.talon_fr_port); //command to move front right motor
+  public WPI_TalonSRX talon_br = new WPI_TalonSRX(Constants.talon_br_port); //command to move back right motor
   //THEN, go to constants
 
   public PhoenixDrive() {}
