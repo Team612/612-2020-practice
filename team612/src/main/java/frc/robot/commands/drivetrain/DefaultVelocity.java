@@ -52,7 +52,7 @@ public class DefaultVelocity extends CommandBase implements Sendable{
   private double positionZ = 0;
 
   private int loop = 0;
-  private int iterationCount = 5;
+  private int iterationCount = 3;
   private int vLoop = 0;
 
   // Velocity 
@@ -80,6 +80,8 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     currentAccelX = (accel.getWorldLinearAccelX() * 9.8);
     currentAccelY = (accel.getWorldLinearAccelY() * 9.8);
     currentAccelZ = (accel.getWorldLinearAccelZ() * 9.8);
+    //SmartDashboard.putNumber("TestDisplacement", accel.getDisplacementY());
+    //SmartDashboard.putNumber("TestVelocity", accel.getVelocityY());
 
     if(Math.abs(currentAccelX) < 0.2) {
       currentAccelX = 0;
@@ -87,7 +89,7 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     if(Math.abs(currentAccelY) < 0.2) {
       currentAccelY = 0;
     }
-    if(Math.abs(currentAccelZ) < 0.3) {
+    if(Math.abs(currentAccelZ) < 0.2) {
       currentAccelZ = 0;
     }
 
@@ -115,16 +117,20 @@ public class DefaultVelocity extends CommandBase implements Sendable{
     currentVelocityX = initialVelocityX + ((initialAccelX + currentAccelX)/2.0)*(currentTimer - initialTimer);
     currentVelocityY = initialVelocityY + ((initialAccelY + currentAccelY)/2.0)*(currentTimer - initialTimer);
     currentVelocityZ = initialVelocityZ + ((initialAccelZ + currentAccelZ)/2.0)*(currentTimer - initialTimer);
+    //currentVelocityX = accel.getVelocityX();
+    //currentVelocityY = accel.getVelocityY();
+    //currentVelocityZ = accel.getVelocityZ();
     
-    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.32 && Math.abs(currentVelocityX) < (Math.abs(strgVelocityX) + 0.2)) {
+    if(Math.abs(currentAccelX) < 0.02 && Math.abs(currentVelocityX) < 0.8 && Math.abs(currentVelocityX) < (Math.abs(strgVelocityX) + 0.15)) {
       currentVelocityX = 0;
     }
-    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.32 && Math.abs(currentVelocityY) < (Math.abs(strgVelocityY) + 0.2)) {
+    if(Math.abs(currentAccelY) < 0.02 && Math.abs(currentVelocityY) < 0.8 && Math.abs(currentVelocityY) < (Math.abs(strgVelocityY) + 0.15)) {
       currentVelocityY = 0;
     }
-    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 0.32 && Math.abs(currentVelocityZ) < (Math.abs(strgVelocityZ) + 0.2)) {
+    if(Math.abs(currentAccelZ) < 0.02 && Math.abs(currentVelocityZ) < 1.2 && Math.abs(currentVelocityZ) < (Math.abs(strgVelocityZ) + 0.15)) {
       currentVelocityZ = 0;
     }
+    
 
     // update acceleration 
     initialAccelZ = currentAccelZ; 
