@@ -33,32 +33,34 @@ public class DefaultPhoenixDrive extends CommandBase {
         //Uhhh
     }
 
-    double getYAxis = ControlMap.driver.getY(Hand.kLeft);
-    double getXAxis = ControlMap.driver.getX(Hand.kRight);
-    //This will set a variable for the commands below, under public void execute{
 
     @Override
     public void initialize() {}
     @Override
     public void execute() {
+        double getYAxis = ControlMap.driver.getY(Hand.kLeft);
+        double getXAxis = ControlMap.driver.getX(Hand.kRight);
+        //This will set a variable for the commands below
+    
         //Set joystick values and controls here, under execute.
-
+        //All the right negative talons are multiplied by negative 1 because it's optimized for Rico.
+        //The code will be changed for the competition bot.
         if (Math.abs(getYAxis) > 0.1 && Math.abs(getXAxis) < 0.1) {
             //Here, the variable "getYAxis" is used.
             // If the left joystick is being moved, but not the right, then:
             System.out.println("This is moving forward or backward");
             //Print this line is so that we can verify that the code is working.
-            RobotContainer.m_drivetrain.talon_fr.set(getYAxis);
+            RobotContainer.m_drivetrain.talon_fr.set(-getYAxis);
+            RobotContainer.m_drivetrain.talon_br.set(-getYAxis);
             RobotContainer.m_drivetrain.talon_fl.set(getYAxis);
-            RobotContainer.m_drivetrain.talon_br.set(getYAxis);
             RobotContainer.m_drivetrain.talon_bl.set(getYAxis);
             //set these talons to whatever that y value is.
 
         } else if (Math.abs(getYAxis) > 0.1 && (getXAxis) > 0.1) {
             //If the left joystick is moving AND the right joystick is moving to the right (i.e. robot making a right), then:
             System.out.println("This is moving to the right");
-            RobotContainer.m_drivetrain.talon_br.set(0.05 * getYAxis);
-            RobotContainer.m_drivetrain.talon_fr.set(0.05 * getYAxis);
+            RobotContainer.m_drivetrain.talon_br.set(-0.05 * getYAxis);
+            RobotContainer.m_drivetrain.talon_fr.set(-0.05 * getYAxis);
             //These talons will be at this value, not 0, to ensure A) that the Y Axis value is always a factor,
             //B) that these talons' values are always less than the other talons.
             RobotContainer.m_drivetrain.talon_bl.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
@@ -73,8 +75,8 @@ public class DefaultPhoenixDrive extends CommandBase {
         } else if (Math.abs(getYAxis) > 0.1 && (getXAxis) < -0.1) {
             //If the left joystick is moving and the right is moving to the left (i.e. robot making a left):
             System.out.println("This is moving to the left");
-            RobotContainer.m_drivetrain.talon_fr.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
-            RobotContainer.m_drivetrain.talon_br.set((getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            RobotContainer.m_drivetrain.talon_fr.set(-(getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
+            RobotContainer.m_drivetrain.talon_br.set(-(getYAxis/Math.abs(getYAxis)) * Math.abs(getXAxis));
             RobotContainer.m_drivetrain.talon_fl.set(0.05 * getYAxis);
             RobotContainer.m_drivetrain.talon_bl.set(0.05 * getYAxis);
             //Same concept as above
