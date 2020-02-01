@@ -26,7 +26,7 @@ public class DefaultDrive extends CommandBase {
   @Override
   public void execute(){
     // Pass values from joystick to west coast drive with deadzone value
-    m_drivetrain.arcadeDrive(ControlMap.driver.getRawAxis(1), ControlMap.driver.getRawAxis(5), DEADZONE);
+    m_drivetrain.arcadeDrive(ControlMap.driver.getRawAxis(4), ControlMap.driver.getRawAxis(1), DEADZONE);
   }
 
   @Override

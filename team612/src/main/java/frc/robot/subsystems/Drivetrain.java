@@ -28,7 +28,8 @@ public class Drivetrain extends SubsystemBase {
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
 
   // Double solenoid for changing gears
-  private DoubleSolenoid solenoid_drive = new DoubleSolenoid(Constants.solenoid_forward_channel, Constants.solenoid_reverse_channel);
+  private DoubleSolenoid solenoid_drive_2 = new DoubleSolenoid(0, 1);
+  private DoubleSolenoid solenoid_drive_1 = new DoubleSolenoid(2, 3);
 
   // Arcade drive function (same as tank drive)
   public void arcadeDrive(double x_axis, double y_axis, double deadzone) {  
@@ -56,14 +57,23 @@ public class Drivetrain extends SubsystemBase {
 
   // Shift the double solenoid to kForward
   public void shiftForward(){
-    solenoid_drive.set(Value.kForward);
-    solenoid_drive.set(Value.kOff);
+    solenoid_drive_1.set(Value.kForward);
+    //solenoid_drive_1.set(Value.kOff);
+
+    solenoid_drive_2.set(Value.kForward);
+    //solenoid_drive_2.set(Value.kOff);
+    System.out.println("forward");
+
   }
 
   // Shift the double solenoid to kReverse
   public void shiftReverse(){
-    solenoid_drive.set(Value.kReverse);
-    solenoid_drive.set(Value.kOff);
+    solenoid_drive_1.set(Value.kReverse);
+    //solenoid_drive_1.set(Value.kOff);
+
+    solenoid_drive_2.set(Value.kReverse);
+    //solenoid_drive_2.set(Value.kOff);
+    System.out.println("reversed");
   }
 
   public Drivetrain() {
