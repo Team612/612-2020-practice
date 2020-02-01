@@ -23,7 +23,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonSRX talon_fl_drive = new WPI_TalonSRX(Constants.talon_fl_port);
   private WPI_TalonSRX talon_br_drive = new WPI_TalonSRX(Constants.talon_br_port);
   private WPI_TalonSRX talon_bl_drive = new WPI_TalonSRX(Constants.talon_bl_port);
-
+  public String Speed;
   // Ultrasonic sensor for drive
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
 

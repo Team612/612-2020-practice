@@ -1,5 +1,6 @@
 package frc.robot.commands.drivetrain;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Drivetrain;
 
@@ -21,6 +22,7 @@ public class SetHighGear extends CommandBase {
   @Override
   public void execute(){
    m_drivetrain.shiftForward();  // Shift the gears forward
+   SmartDashboard.putString("Speed", "High Gear");
   }
 
   @Override
