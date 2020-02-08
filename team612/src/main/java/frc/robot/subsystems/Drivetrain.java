@@ -28,13 +28,13 @@ public class Drivetrain extends SubsystemBase {
   // Ultrasonic sensor for drive
 
   //Grayhill Quadrature Encoders| Encoder(DIO Port1, DIO Port2, Inversion Factor, Encoding Type)| default4x
-  private Encoder encoder_fr = new Encoder(0,1);
-  private Encoder encoder_fl = new Encoder(0,1);
-  private Encoder encoder_br = new Encoder(0,1); 
-  private Encoder encoder_bl = new Encoder(0,1);
+  private Encoder encoder_fr = new Encoder(Constants.encoder_ports[0][0], Constants.encoder_ports[1][0], false, Encoder.EncodingType.k4X);
+  private Encoder encoder_fl = new Encoder(Constants.encoder_ports[0][1], Constants.encoder_ports[1][1], false, Encoder.EncodingType.k4X);
+  private Encoder encoder_br = new Encoder(Constants.encoder_ports[0][2], Constants.encoder_ports[1][2], false, Encoder.EncodingType.k4X); 
+  private Encoder encoder_bl = new Encoder(Constants.encoder_ports[0][3], Constants.encoder_ports[1][3], false, Encoder.EncodingType.k4X);
 
-  private double encoderPulse = 256;
-  private double calculatedEncoderDistance = 1; //distance wheel travels in one revolution
+  private double encoderPulse = 256; // 256 pulses for 1 encoder revolution
+  private double calculatedEncoderDistance = 1.0471975512; //distance wheel travels in one revolution- moves 1.047 feet 
 
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
 
@@ -94,13 +94,19 @@ public class Drivetrain extends SubsystemBase {
      encoder_fr.reset();
   }
 // setDistancePerPulse(Distance/PulsePerRevolution)
-  public void setEncoderDistance(){
+  public void calibrateEncoderDistance(){
     encoder_bl.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
     encoder_br.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
     encoder_fl.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
     encoder_fr.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
   }
 
+  public void setEncoderSampleRate(int samplerate){
+     encoder_bl.setSamplesToAverage(samplerate);
+     encoder_br.setSamplesToAverage(samplerate);
+     encoder_fl.setSamplesToAverage(samplerate);
+     encoder_fr.setSamplesToAverage(samplerate);
+  }
   
 
   public Drivetrain() {
@@ -123,6 +129,11 @@ public class Drivetrain extends SubsystemBase {
     System.out.println(encoder_br.getDistance());
     System.out.println(encoder_fl.getDistance());
     System.out.println(encoder_fr.getDistance());
+
+    System.out.println(encoder_bl.getRate());
+    System.out.println(encoder_br.getRate());
+    System.out.println(encoder_fl.getRate());
+    System.out.println(encoder_fr.getRate());
   }
   
 }

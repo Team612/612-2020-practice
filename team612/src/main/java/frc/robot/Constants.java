@@ -15,7 +15,15 @@ public final class Constants {
     // Ping and echo channel port for drive ultrasonic
     public static int ultrasonic_ping_port = 7;
     public static int ultrasonic_echo_port = 8;
+    
+    public static int[][] encoder_ports = {
+        {0, 1}, // Fl
+        {0, 1}, // FR
+        {0, 1}, // BL
+        {0, 1}, // BR
+  }; 
 
+  
 
     
 
