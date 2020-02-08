@@ -20,7 +20,7 @@ public class DefaultDrive extends CommandBase {
 
   @Override
   public void execute() {
-    Drivetrain.arcadeInput(0, 0.9);
+    Drivetrain.arcadeInput(0, -1);
     //Drivetrain.arcadeInput(ControlMap.driver.getRawAxis(0), ControlMap.driver.getRawAxis(1));
   }
   @Override
