@@ -3,8 +3,8 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.autonomous.SampleAuto;
 import frc.robot.commands.drivetrain.DefaultDrive;
-import frc.robot.commands.drivetrain.SetHighGear;
-import frc.robot.commands.drivetrain.SetLowGear;
+// import frc.robot.commands.drivetrain.SetHighGear;
+// import frc.robot.commands.drivetrain.SetLowGear;
 import frc.robot.controls.ControlMap;
 import frc.robot.subsystems.Drivetrain;
 
@@ -23,8 +23,8 @@ public class RobotContainer {
 
   // Put all button bindings here
   private void configureButtonBindings() {
-    ControlMap.driver_button_LB.whenPressed(new SetHighGear(m_drivetrain));
-    ControlMap.driver_button_RB.whenPressed(new SetLowGear(m_drivetrain));
+    // ControlMap.driver_button_LB.whenPressed(new SetHighGear(m_drivetrain));
+    // ControlMap.driver_button_RB.whenPressed(new SetLowGear(m_drivetrain));
   }
 
   // Put all default commands here

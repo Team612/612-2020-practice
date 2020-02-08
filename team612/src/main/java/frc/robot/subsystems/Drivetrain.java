@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -25,6 +26,16 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonSRX talon_bl_drive = new WPI_TalonSRX(Constants.talon_bl_port);
   public String Speed;
   // Ultrasonic sensor for drive
+
+  //Grayhill Quadrature Encoders| Encoder(DIO Port1, DIO Port2, Inversion Factor, Encoding Type)| default4x
+  private Encoder encoder_fr = new Encoder(0,1);
+  private Encoder encoder_fl = new Encoder(0,1);
+  private Encoder encoder_br = new Encoder(0,1); 
+  private Encoder encoder_bl = new Encoder(0,1);
+
+  private double encoderPulse = 256;
+  private double calculatedEncoderDistance = 1; //distance wheel travels in one revolution
+
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
 
   // Double solenoid for changing gears
@@ -76,11 +87,28 @@ public class Drivetrain extends SubsystemBase {
     System.out.println("reversed");
   }
 
+  public void resetEncoders(){
+     encoder_bl.reset();
+     encoder_br.reset();
+     encoder_fl.reset();
+     encoder_fr.reset();
+  }
+// setDistancePerPulse(Distance/PulsePerRevolution)
+  public void setEncoderDistance(){
+    encoder_bl.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
+    encoder_br.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
+    encoder_fl.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
+    encoder_fr.setDistancePerPulse(calculatedEncoderDistance/encoderPulse);
+  }
+
+  
+
   public Drivetrain() {
     // Prepare and enable ultrasonic
     ultrasonic_drive.setEnabled(true);
     ultrasonic_drive.setAutomaticMode(true);
   }
+  
 
   // Periodic loop for ShuffleBoard values
   @Override
@@ -91,6 +119,10 @@ public class Drivetrain extends SubsystemBase {
     SmartDashboard.putNumber("Front Left Drive Talon", talon_fl_drive.get());
     SmartDashboard.putNumber("Front RIght Drive Talon", talon_fr_drive.get());
     SmartDashboard.putNumber("Ultrasonic Distance", getDistance());
+    System.out.println(encoder_bl.getDistance());
+    System.out.println(encoder_br.getDistance());
+    System.out.println(encoder_fl.getDistance());
+    System.out.println(encoder_fr.getDistance());
   }
   
 }
