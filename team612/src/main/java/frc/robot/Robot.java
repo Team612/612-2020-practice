@@ -2,9 +2,12 @@
 /* Copyright (c) 2017-2019 FIRST. All Rights Reserved.                        */
 package frc.robot;
 
+import java.util.Arrays;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.controls.lib.Loader;
 
 public class Robot extends TimedRobot {
 
@@ -13,11 +16,14 @@ public class Robot extends TimedRobot {
 
   @Override
   public void robotInit() {
+    Loader.loadJSON("/home/lvuser/ports.json");
     m_robotContainer = new RobotContainer();
   }
 
   @Override
   public void robotPeriodic() {
+    System.out.println(Constants.TALON_FR_DRIVE);
+    System.out.println(Arrays.toString(Constants.SOLENOID_INTAKE));
     CommandScheduler.getInstance().run();
   }
 
