@@ -23,13 +23,12 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonSRX talon_fl_drive = new WPI_TalonSRX(Constants.talon_fl_port);
   private WPI_TalonSRX talon_br_drive = new WPI_TalonSRX(Constants.talon_br_port);
   private WPI_TalonSRX talon_bl_drive = new WPI_TalonSRX(Constants.talon_bl_port);
-  public String Speed;
+
   // Ultrasonic sensor for drive
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
 
   // Double solenoid for changing gears
-  private DoubleSolenoid solenoid_drive_2 = new DoubleSolenoid(0, 1);
-  private DoubleSolenoid solenoid_drive_1 = new DoubleSolenoid(2, 3);
+  private DoubleSolenoid solenoid_drive = new DoubleSolenoid(0, 1);
 
   // Arcade drive function (same as tank drive)
   public void arcadeDrive(double x_axis, double y_axis, double deadzone) {  
@@ -57,22 +56,14 @@ public class Drivetrain extends SubsystemBase {
 
   // Shift the double solenoid to kForward
   public void shiftForward(){
-    solenoid_drive_1.set(Value.kForward);
-    //solenoid_drive_1.set(Value.kOff);
-
-    solenoid_drive_2.set(Value.kForward);
-    //solenoid_drive_2.set(Value.kOff);
+    solenoid_drive.set(Value.kForward);
     System.out.println("forward");
 
   }
 
   // Shift the double solenoid to kReverse
   public void shiftReverse(){
-    solenoid_drive_1.set(Value.kReverse);
-    //solenoid_drive_1.set(Value.kOff);
-
-    solenoid_drive_2.set(Value.kReverse);
-    //solenoid_drive_2.set(Value.kOff);
+    solenoid_drive.set(Value.kReverse);
     System.out.println("reversed");
   }
 
