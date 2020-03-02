@@ -8,6 +8,8 @@ public final class Constants {
     public static int talon_br_port = 0;
     public static int talon_bl_port = 15;
 
+    public static int OUTTAKE = 8;
+
     // Forward and reverse channel for drive double solenoid
     public static int solenoid_forward_channel = 2;
     public static int solenoid_reverse_channel = 4;

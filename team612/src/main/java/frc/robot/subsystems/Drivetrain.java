@@ -10,6 +10,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -23,6 +24,7 @@ public class Drivetrain extends SubsystemBase {
   private WPI_TalonSRX talon_fl_drive = new WPI_TalonSRX(Constants.talon_fl_port);
   private WPI_TalonSRX talon_br_drive = new WPI_TalonSRX(Constants.talon_br_port);
   private WPI_TalonSRX talon_bl_drive = new WPI_TalonSRX(Constants.talon_bl_port);
+  private static Spark Outtake = new Spark(Constants.OUTTAKE);
 
   // Ultrasonic sensor for drive
   private Ultrasonic ultrasonic_drive = new Ultrasonic(Constants.ultrasonic_ping_port, Constants.ultrasonic_echo_port);
@@ -31,20 +33,20 @@ public class Drivetrain extends SubsystemBase {
   private DoubleSolenoid solenoid_drive = new DoubleSolenoid(0, 1);
 
   // Arcade drive function (same as tank drive)
-  public void arcadeDrive(double x_axis, double y_axis, double deadzone) {  
-    //sets up deadzones
+  public void arcadeDrive(double x_axis, double y_axis, double deadzone) {
+    // sets up deadzones
     x_axis = Math.abs(x_axis) < deadzone ? 0.0 : x_axis;
     y_axis = Math.abs(y_axis) < deadzone ? 0.0 : y_axis;
 
-    //WPI_Talon SRX Caps voltage at 1.0
+    // WPI_Talon SRX Caps voltage at 1.0
     double leftCommand = y_axis + x_axis;
     double rightCommand = y_axis - x_axis;
-    
+
     // right side motor controls
     talon_br_drive.set(-rightCommand);
     talon_br_drive.set(-rightCommand);
 
-    //left side motor controls
+    // left side motor controls
     talon_fl_drive.set(leftCommand);
     talon_bl_drive.set(leftCommand);
   }
@@ -55,10 +57,14 @@ public class Drivetrain extends SubsystemBase {
   }
 
   // Shift the double solenoid to kForward
-  public void shiftForward(){
+  public void shiftForward() {
     solenoid_drive.set(Value.kForward);
     System.out.println("forward");
 
+  }
+
+  public static void Outtake(double speed) {
+    Outtake.set(speed);
   }
 
   // Shift the double solenoid to kReverse

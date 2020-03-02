@@ -25,6 +25,7 @@ public class RobotContainer {
   private void configureButtonBindings() {
     ControlMap.driver_button_LB.whenPressed(new SetHighGear(m_drivetrain));
     ControlMap.driver_button_RB.whenPressed(new SetLowGear(m_drivetrain));
+    ControlMap.driver_button_A.whileHeld(new )
   }
 
   // Put all default commands here
